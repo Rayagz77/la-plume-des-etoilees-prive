@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="search-bar">
+            <input type="text" placeholder="Trouver un produit..." class="search-input">
+            <div class="category-dropdown"></div>
+            <button class="search-button">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+
+        <div class="sidebar">
+            <div class="box">
+                <h3>IA</h3>
+                <p>Recommandations IA.</p>
+            </div>
+        
+            <div class="box">
+                <h3 class="filter-category">Filtrer par catégorie</h3>
+                <select id="category-filter">
+                    <option value="">Choisir une catégorie</option>
+                    <option value="romance">Romance</option>
+                    <option value="mystery">Mystère</option>
+                    <option value="sci-fi">Science Fiction</option>
+                    <option value="fantasy">Fantastique</option>
+                    <option value="crime">Policier</option>
+                    <option value="self-development">Développement personnel</option>
+                    <option value="historical">Historique</option>
+                    <option value="biography">Biographie</option>
+                    <option value="graphic-novel">Roman graphique</option>
+                    <option value="poetry">Poétique</option>
+                    <option value="essay">Essai</option>
+                </select>
+            </div>
+        
+            <div class="box">
+                <h3>Filtrer par prix</h3>
+                <input type="range" min="0" max="100" step="1" id="price-range">
+                <p>Prix : <span id="price-value">0</span> € - 100 €</p>
+                <button id="filter-button">Filtrer</button>
+            </div>
+        </div>
+        
+        
+    </main>
+{% endblock %}

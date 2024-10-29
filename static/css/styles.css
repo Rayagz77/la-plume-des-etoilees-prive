@@ -1,0 +1,196 @@
+body{
+    font-family:"Dejavu sans";
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    width: 170px !important; /* Ajuste la largeur du logo à ta convenance */
+    height: auto !important; /* Maintient le ratio de l'image */
+}
+
+
+.web_name img {
+    width: 400px !important; /* Ajuste la largeur de l'image à ta convenance */
+    height: auto !important; /* Maintient le ratio de l'image */
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Espace entre les icônes */
+}
+
+.icon {
+    font-size: 24px; /* Taille des icônes */
+    cursor: pointer;
+    color: #333; /* Couleur des icônes */
+    transition: color 0.3s; /* Transition pour l'effet au survol */
+}
+
+.icon:hover {
+    color: #007bff; /* Change la couleur au survol */
+}
+
+.icon a {
+    text-decoration: none;
+    color: inherit; /* Inhérer la couleur de l'icône */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**************SEARCH*************************/
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8; /* Couleur de fond de la barre */
+    padding: 10px 15px;
+    border-radius: 25px; /* Coins arrondis */
+    max-width: 600px;
+    margin: 15px auto; /* Centre la barre de menu */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    border: none;
+    background: none;
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    color: #666;
+    outline: none;
+}
+/***********barre lateral*****************/
+
+.category-dropdown {
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-weight: bold;
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.category-dropdown .arrow-down {
+    border: solid black;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(45deg);
+    margin-left: 5px;
+}
+
+.search-button {
+    background-color: #080d0f; /* Couleur de fond du bouton */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button i {
+    font-size: 16px;
+}
+
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.box {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.box h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#category-filter {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background:#1e1d1a;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Style du curseur */
+#price-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;          /* Ajustez pour adapter à la largeur souhaitée dans la box */
+    height: 2px;         /* Hauteur fine de 1px pour un curseur très mince */
+    background: #000;    /* Couleur noire pour la ligne */
+    outline: none;
+    border-radius: 5px;  /* Arrondi léger pour les bords */
+    margin: 0 auto;      /* Centre le curseur horizontalement dans la box */
+    display: block;      /* Assure que le margin auto fonctionne */
+}
+
+/* Style de la poignée pour Chrome, Safari, etc. */
+#price-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;         /* Largeur de la poignée */
+    height: 10px;        /* Hauteur de la poignée */
+    background: #000;    /* Couleur de la poignée */
+    border-radius: 50%;  /* Forme ronde */
+    cursor: pointer;
+    margin-top: -4.5px;  /* Centre la poignée par rapport à la ligne de 1px */
+}
+
+/* Style de la poignée pour Firefox */
+#price-range::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+#price-value {
+    font-weight: bold;
+}
+
+#filter-button {
+    padding: 10px 15px;
+    background-color: #3f82db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#filter-button:hover {
+    background-color: #3e2060;
+}

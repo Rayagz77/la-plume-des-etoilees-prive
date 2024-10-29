@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenue sur mon site de livres{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
+            </div>
+            <div class="web_name">
+                <img src="{{ url_for('static', filename='images/web_name.png') }}" alt="Logo">
+            </div>
+            <div class="header-icons">
+                
+                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-user"></i></a></span>
+                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-heart"></i></a></span>
+                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></span>      
+    
+        </div>
+    </header>
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Mon Site de Livres Numériques</p>
+    </footer>
+</body>
+</html>
