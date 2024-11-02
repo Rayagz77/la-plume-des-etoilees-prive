@@ -18,7 +18,8 @@
             </div>
             <div class="header-icons">
                 
-                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-user"></i></a></span>
+                <span class="icon" id="favorite-icon"><a href="{{ url_for('login.login') }}"><i class="fa-solid fa-user"></i></a>
+                </span>
                 <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-heart"></i></a></span>
                 <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></span>      
     
@@ -30,7 +31,28 @@
     </div>
     
     <footer>
-        <p>&copy; 2024 Mon Site de Livres Numériques</p>
+        <div class="footer-container">
+            <div class="footer-logo">            
+                <img class="logo_footer" src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo" />          
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="">Mentions Légales</a></li>
+                    <li><a href="">Politique de Confidentialité</a></li>
+                    <li><a href="">Politique des Cookies</a></li>
+                    <li><a href="">FAQ</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2024 Miel des Mots site web. Tous droits réservés.</p>
+        </div>
     </footer>
 </body>
 </html>

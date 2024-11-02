@@ -3,21 +3,28 @@
 {% block title %}Page d'accueil{% endblock %}
 
 {% block content %}
-    <main>
-        <div class="search-bar">
-            <input type="text" placeholder="Trouver un produit..." class="search-input">
-            <div class="category-dropdown"></div>
-            <button class="search-button">
-                <i class="fa fa-search"></i>
-            </button>
-        </div>
-
+<main>
+    <div class="search-bar">
+        <input type="text" placeholder="Trouver un produit..." class="search-input">
+        <div class="category-dropdown"></div>
+        <button class="search-button">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+    <div class="horizontal-menu">
+        <a href="#">Accueil</a>
+        <a href="#">Catégories</a>
+        <a href="#">Offres spéciales</a>
+        <a href="#">Nouveautés</a>
+        <a href="#">Contact</a>
+    </div>
+    <div class="sidebar-menu-container">
+        <!-- Barre latérale (à gauche) -->
         <div class="sidebar">
             <div class="box">
                 <h3>IA</h3>
                 <p>Recommandations IA.</p>
             </div>
-        
             <div class="box">
                 <h3 class="filter-category">Filtrer par catégorie</h3>
                 <select id="category-filter">
@@ -35,7 +42,6 @@
                     <option value="essay">Essai</option>
                 </select>
             </div>
-        
             <div class="box">
                 <h3>Filtrer par prix</h3>
                 <input type="range" min="0" max="100" step="1" id="price-range">
@@ -44,6 +50,36 @@
             </div>
         </div>
         
+        <!-- Galerie des livres (à droite) -->
+        <div class="book-container">
+            <div class="book-gallery">
+                <h3>Livres Disponibles</h3>
+                <div class="book-list">
+                    {% for book in books %}
+                <div class="book-box">
+                    <img src="{{ book.book_image_url }}" alt="Image de {{ book.book_title }}" class="book-image">
+                    <h4>{{ book.book_title }}</h4>
+                    <p>Auteur: {{ book.author.author_firstname }} {{ book.author.author_lastname }}</p>
+                    <p>Prix: {{ book.book_price }} €</p>
+                    <button>Ajouter au Panier</button>
+                </div>
+                {% else %}
+                <p>Aucun livre disponible.</p>
+                {% endfor %}
+
+                
+            </div>
+        </div>   
+<!-- Pagination -->
+<div class="pagination">
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('home', page=pagination.prev_num) }}">Précédent</a>
+    {% endif %}
+    <span>Page {{ pagination.page }} ... {{ pagination.pages }}</span>
+    {% if pagination.has_next %}
+        <a href="{{ url_for('home', page=pagination.next_num) }}"> Suivant </a>
+    {% endif %}
+</div>
         
-    </main>
+</main>
 {% endblock %}

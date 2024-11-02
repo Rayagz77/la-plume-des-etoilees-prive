@@ -1,0 +1,29 @@
+<form action="/add_book" method="post" enctype="multipart/form-data">
+    <label for="title">Titre du livre :</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="publication_date">Date de publication :</label>
+    <input type="date" id="publication_date" name="publication_date" required><br>
+
+    <label for="price">Prix :</label>
+    <input type="text" id="price" name="price" required><br>
+
+    <label for="author_id">Auteur :</label>
+    <select id="author_id" name="author_id" required>
+        {% for author in authors %}
+        <option value="{{ author.author_id }}">{{ author.author_firstname }} {{ author.author_lastname }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="category_id">Catégorie :</label>
+    <select id="category_id" name="category_id" required>
+        {% for category in categories %}
+        <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="book_image">Image du livre :</label>
+    <input type="file" id="book_image" name="book_image"><br>
+
+    <input type="submit" value="Ajouter le livre">
+</form>

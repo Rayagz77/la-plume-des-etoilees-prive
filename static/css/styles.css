@@ -1,6 +1,9 @@
 body{
-    font-family:"Dejavu sans";
+    font-family:"Hypologic","Monaco","Monolight","Dejavu sans";
+    
 }
+
+
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -15,13 +18,13 @@ body{
     align-items: center;
 }
 .logo img {
-    width: 170px !important; /* Ajuste la largeur du logo à ta convenance */
+    width: 160px !important; /* Ajuste la largeur du logo à ta convenance */
     height: auto !important; /* Maintient le ratio de l'image */
 }
 
 
 .web_name img {
-    width: 400px !important; /* Ajuste la largeur de l'image à ta convenance */
+    width: 300px !important; /* Ajuste la largeur de l'image à ta convenance */
     height: auto !important; /* Maintient le ratio de l'image */
 }
 
@@ -106,7 +109,7 @@ body{
 .search-button i {
     font-size: 16px;
 }
-
+/*****************debut commentaires**************/
 .sidebar {
     width: 300px;
     padding: 20px;
@@ -143,54 +146,322 @@ body{
 }
 
 /* Style du curseur */
-#price-range {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;          /* Ajustez pour adapter à la largeur souhaitée dans la box */
-    height: 2px;         /* Hauteur fine de 1px pour un curseur très mince */
-    background: #000;    /* Couleur noire pour la ligne */
-    outline: none;
-    border-radius: 5px;  /* Arrondi léger pour les bords */
-    margin: 0 auto;      /* Centre le curseur horizontalement dans la box */
-    display: block;      /* Assure que le margin auto fonctionne */
-}
 
-/* Style de la poignée pour Chrome, Safari, etc. */
-#price-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 10px;         /* Largeur de la poignée */
-    height: 10px;        /* Hauteur de la poignée */
-    background: #000;    /* Couleur de la poignée */
-    border-radius: 50%;  /* Forme ronde */
-    cursor: pointer;
-    margin-top: -4.5px;  /* Centre la poignée par rapport à la ligne de 1px */
-}
+/*******************FIN COMENTAIRE****************/
 
-/* Style de la poignée pour Firefox */
-#price-range::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    background: #000;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-
-#price-value {
-    font-weight: bold;
-}
-
-#filter-button {
+/* Style du menu horizontal */
+.horizontal-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centre le menu horizontalement */
+    gap: 20px;
     padding: 10px 15px;
-    background-color: #3f82db;
-    color: white;
-    border: none;
+    /*background-color: #f8f8f8;*/
+    border-radius: 12px;
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+
+.horizontal-menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.horizontal-menu a:hover {
+    color: #007bff;
+}
+
+/*****************debut commentaires**************/
+/*.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-box {
+    width: 250px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/*****************fin commentaires**************/
+
+
+footer {
+    background-color: #fcfcfc;
+    padding: 30px 0;
+    text-align: center;
+    position: relative;
+    margin-top: 40px;
+
+}.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+}.footer-logo {
+    flex-grow: 1;
+    text-align: left;
+
+}.footer-links {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+
+}.footer-social {
+    flex-grow: 1;
+    text-align: right;
+
+}.footer-bottom {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #999;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}/* Main Content */
+
+footer {
+    background-color: #fdfcfc; /* Couleur de fond du footer */
+    color:#00010D; /* Couleur du texte */
+    padding: 20px 0; /* Espacement intérieur */
+    font-family: Arial, sans-serif; /* Police du texte */
+}
+
+.footer-container {
+    display: flex; /* Utilisation du flexbox pour le layout */
+    justify-content: space-between; /* Espace entre les éléments */
+    align-items: center; /* Alignement vertical centré */
+    max-width: 1200px; /* Largeur maximum */
+    margin: 0 auto; /* Centrage horizontal */
+    padding: 0 20px; /* Espacement horizontal */
+}
+
+.logo_footer{
+    width: 90px;
+    height: 100px;
+}
+
+.footer-logo p {
+    font-size: 24px; /* Taille de la police pour le logo */
+    font-weight: bold; /* Texte en gras */
+    margin: 0; /* Suppression des marges */
+}
+
+.footer-links {
+    display: flex; /* Utilisation du flexbox pour les liens */
+    flex-direction: row; /* Alignement horizontal */
+}
+
+.footer-links a {
+    color: #00010D; /* Couleur des liens */
+    text-decoration: none; /* Suppression du soulignement */
+    padding: 0 15px; /* Espacement horizontal autour des liens */
+    transition: color 0.3s; /* Transition pour l'effet de survol */
+}
+
+.footer-links a:hover {
+    color: #00010D; /* Couleur des liens au survol */
+}
+
+.footer-social {
+    display: flex; /* Utilisation du flexbox pour les icônes sociales */
+}
+
+
+.footer-links ul {
+    list-style: none; /* Supprime les puces */
+    margin: 0; /* Supprime la marge par défaut */
+    padding: 0; /* Supprime le padding par défaut */
+    display: flex; /* Utilise flexbox pour aligner horizontalement */
+    justify-content: center; /* Centre les éléments horizontalement */
+}
+
+.footer-links li {
+    margin: 0 15px; /* Espacement entre les éléments de la liste */
+}
+
+.footer-links a {
+    text-decoration: none; /* Supprime le soulignement des liens */
+    color: #00010D; /* Couleur des liens */
+    transition: color 0.3s; /* Transition douce pour la couleur */
+}
+
+.footer-links a:hover {
+    color: #7A4FCD; /* Couleur des liens au survol */
+}
+
+
+.footer-social a {
+    color: #7A4FCD; /* Couleur des icônes */
+    margin-left: 10px; /* Espacement à gauche entre les icônes */
+    transition: color 0.3s; /* Transition pour l'effet de survol */
+    margin: 10px;
+    font-size: 20px; /* Taille des icônes */
+}
+
+.footer-social a:hover {
+    color: #7A4FCD; /* Couleur des icônes au survol */
+}
+
+.footer-bottom {
+    text-align: center; /* Alignement centré du texte */
+    margin-top: 20px; /* Espacement au-dessus du footer inférieur */
+    font-size: 14px; /* Taille de la police */
+    color: #bbb; /* Couleur du texte */
+}
+
+
+/*****************Ajout sidebar***********/
+/* Container for sidebar and book gallery */
+.sidebar-menu-container {
+    display: flex;
+    gap: 20px; /* Espace entre la barre latérale et la galerie de livres */
+    padding: 20px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 280px;
+    background-color: #f4f4f4;
     border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .box {
+    margin-bottom: 20px;
+}
+
+/* Book gallery styling */
+.book-container {
+    flex: 1;
+}
+
+.book-gallery h3 {
+    font-size: 24px;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.book-box img {
+    width: 250px;
+    height: 250px;
+    object-fit: fill;  /* Redimensionner l'image pour qu'elle occupe toute la boîte */
+    border-radius: 8px;   /* Optionnel : arrondit les coins des images */
+    margin-bottom: 10px;  /* Espace sous l'image */
+}
+
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Book box styling */
+.book-box {
+    width: 280px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.book-box h4 {
+    font-size: 18px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.book-box p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.book-box button {
+    background-color: #0a1826;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
     margin-top: 10px;
 }
 
-#filter-button:hover {
-    background-color: #3e2060;
+.book-box button:hover {
+    background-color: #6469e2;
+}
+
+/***********REGISTER***************/
+
+
+.container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.registration-form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+
+.registration-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.registration-form button:hover {
+    background-color: #0056b3;
+}
+/* Pagination Styling */
+.pagination {
+    display: flex;
+    margin-top: 40px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }

@@ -1,0 +1,19 @@
+<!-- login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Page de connexion{% endblock %}
+
+{% block content %}
+<main>
+    <h2>Connexion</h2>
+    <form method="POST" action="{{ url_for('login.login') }}">
+        <label>Email:</label>
+        <input type="email" name="user_email" required>
+        
+        <label>Mot de passe:</label>
+        <input type="password" name="user_password" required>
+        
+        <button type="submit">Se connecter</button>
+    </form>
+</main>
+{% endblock %}
