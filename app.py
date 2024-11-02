@@ -4,12 +4,12 @@ import sys
 from flask import Flask, render_template, request  # Import de request pour gérer les paramètres de pagination
 from dotenv import load_dotenv
 from flask_migrate import Migrate
-
 # Ajouter le chemin du répertoire racine du projet
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from models import db  # Importer db depuis models/__init__.py
 from models.book_model import Book
+from models.category_model import Category
 from controllers.register_controller import register_bp
 from controllers.auth_controller import login_bp
 from controllers.admin_controller import admin_bp
@@ -38,12 +38,16 @@ def create_app():
     @app.route('/')
     def home():
         try:
+            # Récupérer toutes les catégories
+            categories = Category.query.all()
+
             # Utiliser la pagination pour afficher 12 livres par page
             page = request.args.get('page', 1, type=int)
             per_page = 9
             pagination = Book.query.paginate(page=page, per_page=per_page, error_out=False)
             books = pagination.items
-            return render_template('home.html', books=books, pagination=pagination)
+
+            return render_template('home.html', books=books, categories=categories, pagination=pagination)
         except Exception as e:
             print("Error:", e)
             return str(e)
