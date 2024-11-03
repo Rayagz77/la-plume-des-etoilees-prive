@@ -159,6 +159,7 @@ body{
     /*background-color: #f8f8f8;*/
     border-radius: 12px;
     /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+   
 }
 
 
@@ -346,6 +347,7 @@ footer {
     flex: 1;
 }
 
+
 .book-gallery h3 {
     font-size: 24px;
     color: #007bff;
@@ -407,13 +409,21 @@ footer {
 
 /***********REGISTER***************/
 
-
-.container {
+.register_main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.register_container {
     background-color: #fff;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 500px;
     text-align: center;
 }
 
@@ -464,4 +474,76 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 15px;
+}
+/***************login******************/
+
+
+#login-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 550px; /* Limite à 550px */
+}
+
+.login-title {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    margin-top: 10px;
+    color: #555;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background-color: #4cae4c;
+}
+
+.register-link {
+    text-align: center;
+}
+
+.register-link p {
+    color: #777;
+}
+
+.register-link a {
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
 }

@@ -4,16 +4,22 @@
 {% block title %}Page de connexion{% endblock %}
 
 {% block content %}
-<main>
-    <h2>Connexion</h2>
-    <form method="POST" action="{{ url_for('login.login') }}">
-        <label>Email:</label>
-        <input type="email" name="user_email" required>
-        
-        <label>Mot de passe:</label>
-        <input type="password" name="user_password" required>
-        
-        <button type="submit">Se connecter</button>
-    </form>
+<main id="login-main">
+    <h2 class="login-title">Connectez-vous</h2>
+    <div class="login_container">
+        <form id="login-form" method="POST" action="{{ url_for('login.login') }}">
+            <label for="user_email">Email:</label>
+            <input type="email" id="user_email" name="user_email" required>
+            
+            <label for="user_password">Mot de passe:</label>
+            <input type="password" id="user_password" name="user_password" required>
+            
+            <button type="submit" class="login-button">Se connecter</button>
+        </form>
+        <div class="register-link">
+            <p>Vous n'avez pas de compte ? <a href="{{ url_for('register.register') }}">Inscrivez-vous</a></p>
+        </div>
+    </div>
 </main>
+
 {% endblock %}
