@@ -3,14 +3,17 @@
 {% block title %}Page d'accueil{% endblock %}
 
 {% block content %}
+
 <main>
+
     <div class="search-bar">
         <input type="text" placeholder="Trouver un produit..." class="search-input">
         <div class="category-dropdown"></div>
         <button class="search-button">
             <i class="fa fa-search"></i>
-        </button>
+        </button> 
     </div>
+
     <div class="horizontal-menu">
         <a href="#">Accueil</a>
         <a href="#">Catégories</a>
@@ -18,9 +21,23 @@
         <a href="#">Nouveautés</a>
         <a href="#">Contact</a>
     </div>
+    
     <div class="sidebar-menu-container">
+        
         <!-- Barre latérale (à gauche) -->
         <div class="sidebar">
+            <div class="message_box">
+                <!-- Bloc pour afficher les messages flash -->
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        <div class="flashes">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
             <div class="box">
                 <h3>IA</h3>
                 <p>Recommandations IA.</p>

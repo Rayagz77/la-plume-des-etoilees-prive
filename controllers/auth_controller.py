@@ -11,14 +11,15 @@ def login():
         email = request.form['user_email']
         password = request.form['user_password']
         
-        # Query the database for the user
+        # Rechercher l'utilisateur dans la base de données
         user = User.query.filter_by(user_email=email).first()
         
         if user and check_password_hash(user.user_password, password):
-            # Store the user's ID and first name in the session
+            # Stocker l'ID de l'utilisateur et le prénom dans la session
             session['user_id'] = user.user_id
             session['user_firstname'] = user.user_firstname
-            flash('Connexion réussie!', 'success')
+            # Message de bienvenue personnalisé avec emoji
+            flash(f"🤗 ravie de vous revoir {user.user_firstname} !", 'success')
             return redirect(url_for('home'))
         else:
             flash('Email ou mot de passe incorrect.', 'danger')
@@ -27,6 +28,6 @@ def login():
 
 @login_bp.route('/logout')
 def logout():
-    session.clear()  # Clear the user's session
+    session.clear()  # Effacer la session de l'utilisateur
     flash('Vous êtes déconnecté.', 'info')
     return redirect(url_for('login.login'))
