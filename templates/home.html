@@ -44,20 +44,16 @@
             </div>
             <div class="box">
                 <h3 class="filter-category">Filtrer par catégorie</h3>
-                <select id="category-filter">
+                <!-- home.html -->
+                <select id="category-filter" onchange="filterByCategory()">
                     <option value="">Choisir une catégorie</option>
-                    <option value="romance">Romance</option>
-                    <option value="mystery">Mystère</option>
-                    <option value="sci-fi">Science Fiction</option>
-                    <option value="fantasy">Fantastique</option>
-                    <option value="crime">Policier</option>
-                    <option value="self-development">Développement personnel</option>
-                    <option value="historical">Historique</option>
-                    <option value="biography">Biographie</option>
-                    <option value="graphic-novel">Roman graphique</option>
-                    <option value="poetry">Poétique</option>
-                    <option value="essay">Essai</option>
+                    {% for category in categories %}
+                        <option value="{{ category.category_id }}" {% if selected_category_id == category.category_id %}selected{% endif %}>
+                            {{ category.category_name }}
+                        </option>
+                    {% endfor %}
                 </select>
+
             </div>
             <div class="box">
                 <h3>Filtrer par prix</h3>
@@ -99,4 +95,12 @@
 </div>
         
 </main>
+
+<script>
+    function filterByCategory() {
+        const selectedCategory = document.getElementById("category-filter").value;
+        const url = selectedCategory ? `/?category=${selectedCategory}` : '/';
+        window.location.href = url;
+    }
+</script>
 {% endblock %}
