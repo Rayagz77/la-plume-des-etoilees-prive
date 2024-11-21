@@ -16,7 +16,7 @@ class Book(db.Model):
 
     # Relations
     author = db.relationship('Author', backref='books')
-    category = db.relationship('Category', backref='books')  # Relation avec Category
+    category = db.relationship('Category', backref='books')  
 
     def __repr__(self):
         return f"<Book {self.book_title} by author_id {self.author_id}>"

@@ -46,7 +46,8 @@ def add_book():
         db.session.add(new_book)
         db.session.commit()
 
-        return redirect(url_for('admin_bp.books'))  # Rediriger vers la page d'accueil
+        return redirect(url_for('home'))
+
 
     # Récupérer les auteurs et catégories pour le formulaire
     authors = Author.query.all()
