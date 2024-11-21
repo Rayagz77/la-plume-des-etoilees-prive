@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Catégories</title>
+</head>
+<body>
+    <h1>Liste des Catégories</h1>
+    {% if categories %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.category_id }}</td>
+                    <td>{{ category.category_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune catégorie trouvée.</p>
+    {% endif %}
+</body>
+</html>

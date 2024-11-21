@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Tableau de bord Admin</h1>
+    </header>
+    <main>
+        <div class="dashboard">
+            <!-- Books Section -->
+            <div class="dashboard-item">
+                <a href="{{ url_for('admin_bp.list_books') }}">
+                    <img src="{{ url_for('static', filename='icons/books_icon.png') }}" alt="Books Icon">
+                    <h2>Gérer les Livres</h2>
+                </a>
+            </div>
+            <div class="dashboard-item">
+                <a href="{{ url_for('admin_bp.list_categories') }}">
+                    <img src="{{ url_for('static', filename='icons/category_icon.png') }}" alt="Category Icon">
+                    <h2>Gérer les Catégories</h2>
+                </a>
+            </div>
+            <div class="dashboard-item">
+                <a href="{{ url_for('admin_bp.list_authors') }}">
+                    <img src="{{ url_for('static', filename='icons/authors_icon.png') }}" alt="Authors Icon">
+                    <h2>Gérer les Auteurs</h2>
+                </a>
+            </div>
+            
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Votre application</p>
+    </footer>
+</body>
+</html>

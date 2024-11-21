@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from flask_migrate import Migrate
@@ -32,10 +31,10 @@ def create_app():
     # Initialiser Flask-Migrate pour gérer les migrations
     migrate = Migrate(app, db)
 
-    # Enregistrer les Blueprints
+    # Enregistrer les Blueprints avec des préfixes
     app.register_blueprint(register_bp)
     app.register_blueprint(login_bp)
-    app.register_blueprint(admin_bp)
+    app.register_blueprint(admin_bp, url_prefix='/admin')  # Important
 
     @app.route('/')
     def home():
