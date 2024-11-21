@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #093163;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+header a.btn-add {
+    display: inline-block;
+    background-color: #101110;
+    color: white;
+    padding: 10px 20px;
+    margin: 50px;
+    text-decoration: none;
+    border-radius: 5px;
+    float: right;
+    margin-right: 20px;
+}
+
+header a.btn-add:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+    background-color: #ebeae5c9;
+    color: white;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+button, a.btn-edit, button.btn-delete {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a.btn-edit {
+    background-color: #113293;
+    color: white;
+}
+
+a.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+button.btn-delete {
+    background-color: #7b0611;
+    color: white;
+}
+
+button.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.alert {
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    button, a.btn-edit, button.btn-delete {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}

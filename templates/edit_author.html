@@ -1,0 +1,6 @@
+<form action="{{ url_for('admin_bp.edit_author', author_id=author.author_id) }}" method="post">
+    <input type="text" name="author_firstname" value="{{ author.author_firstname }}" required>
+    <input type="text" name="author_lastname" value="{{ author.author_lastname }}" required>
+    <input type="date" name="author_birthday" value="{{ author.author_birthday }}" required>
+    <button type="submit">Enregistrer</button>
+</form>

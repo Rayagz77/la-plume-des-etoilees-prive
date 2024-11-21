@@ -2,33 +2,41 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crud.css') }}">
     <title>Liste des Auteurs</title>
 </head>
 <body>
-    <h1>Liste des Auteurs</h1>
-    {% if authors %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Date de Naissance</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for author in authors %}
-                <tr>
-                    <td>{{ author.author_id }}</td>
-                    <td>{{ author.author_firstname }}</td>
-                    <td>{{ author.author_lastname }}</td>
-                    <td>{{ author.author_birthday }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Aucun auteur trouvé.</p>
-    {% endif %}
+    <header>
+        <h1>Liste des Auteurs</h1>
+        <a href="{{ url_for('admin_bp.add_author') }}" class="btn btn-add">Ajouter un Auteur</a>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de Naissance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+            <tr>
+                <td>{{ author.author_id }}</td>
+                <td>{{ author.author_firstname }}</td>
+                <td>{{ author.author_lastname }}</td>
+                <td>{{ author.author_birthday }}</td>
+                <td>
+                    <a href="{{ url_for('admin_bp.edit_author', author_id=author.author_id) }}" class="btn btn-edit">Modifier</a>
+                    <form action="{{ url_for('admin_bp.delete_author', author_id=author.author_id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

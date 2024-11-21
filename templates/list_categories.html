@@ -2,29 +2,37 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crud.css') }}">
     <title>Liste des Catégories</title>
 </head>
 <body>
-    <h1>Liste des Catégories</h1>
-    {% if categories %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for category in categories %}
-                <tr>
-                    <td>{{ category.category_id }}</td>
-                    <td>{{ category.category_name }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Aucune catégorie trouvée.</p>
-    {% endif %}
+    <header>
+        <h1>Liste des Catégories</h1>
+        <a href="{{ url_for('admin_bp.add_category') }}" class="btn btn-add">Ajouter une Catégorie</a>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.category_id }}</td>
+                <td>{{ category.category_name }}</td>
+                <td>
+                    <a href="{{ url_for('admin_bp.edit_category', category_id=category.category_id) }}" class="btn btn-edit">Modifier</a>
+                    <form action="{{ url_for('admin_bp.delete_category', category_id=category.category_id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

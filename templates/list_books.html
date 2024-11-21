@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crud.css') }}">
     <title>Liste des Livres</title>
 </head>
 <body>
-    <h1>Liste des Livres</h1>
+    <header>
+        <h1>Liste des Livres</h1>
+        <a href="{{ url_for('admin_bp.add_book') }}" class="btn btn-add">Ajouter un Livre</a>
+    </header>
     <table>
         <thead>
             <tr>
@@ -14,6 +18,7 @@
                 <th>Auteur</th>
                 <th>Catégorie</th>
                 <th>Prix</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +28,12 @@
                 <td>{{ book.author.author_firstname }} {{ book.author.author_lastname }}</td>
                 <td>{{ book.category.category_name }}</td>
                 <td>{{ book.book_price }}</td>
+                <td>
+                    <a href="{{ url_for('admin_bp.edit_book', book_id=book.book_id) }}" class="btn btn-edit">Modifier</a>
+                    <form action="{{ url_for('admin_bp.delete_book', book_id=book.book_id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete">Supprimer</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
