@@ -22,31 +22,38 @@ def list_books():
 @admin_bp.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
-        title = request.form['title']
-        publication_date = request.form['publication_date']
-        price = float(request.form['price'])
-        author_id = int(request.form['author_id'])
-        category_id = int(request.form['category_id'])
+        # Vérifiez que toutes les données nécessaires sont envoyées
+        try:
+            title = request.form['title']
+            publication_date = request.form['publication_date']
+            price = float(request.form['price'])
+            author_id = int(request.form['author_id'])
+            category_id = int(request.form['category_id'])
 
-        image_file = request.files['book_image']
-        book_image_url = None
-        if image_file:
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.root_path, 'static/images', filename)
-            image_file.save(image_path)
-            book_image_url = f'/static/images/{filename}'
+            # Vérifiez si une image est fournie
+            image_file = request.files['book_image']
+            book_image_url = None
+            if image_file:
+                filename = secure_filename(image_file.filename)
+                image_path = os.path.join(current_app.root_path, 'static/images', filename)
+                image_file.save(image_path)
+                book_image_url = f'/static/images/{filename}'
 
-        new_book = Book(
-            book_title=title,
-            publication_date=publication_date,
-            book_price=price,
-            author_id=author_id,
-            category_id=category_id,
-            book_image_url=book_image_url
-        )
-        db.session.add(new_book)
-        db.session.commit()
-        return redirect(url_for('admin_bp.list_books'))
+            # Création d'un nouvel objet livre
+            new_book = Book(
+                book_title=title,
+                publication_date=publication_date,
+                book_price=price,
+                author_id=author_id,
+                category_id=category_id,
+                book_image_url=book_image_url
+            )
+            db.session.add(new_book)
+            db.session.commit()
+            return redirect(url_for('admin_bp.list_books'))
+        except Exception as e:
+            print("Erreur lors de l'ajout du livre :", e)
+            return "Erreur lors de l'ajout du livre", 400
 
     authors = Author.query.all()
     categories = Category.query.all()
@@ -91,18 +98,23 @@ def list_authors():
 @admin_bp.route('/add_author', methods=['GET', 'POST'])
 def add_author():
     if request.method == 'POST':
-        author_firstname = request.form['author_firstname']
-        author_lastname = request.form['author_lastname']
-        author_birthday = request.form['author_birthday']
+        try:
+            author_firstname = request.form['author_firstname']
+            author_lastname = request.form['author_lastname']
+            author_birthday = request.form['author_birthday']
 
-        new_author = Author(
-            author_firstname=author_firstname,
-            author_lastname=author_lastname,
-            author_birthday=author_birthday
-        )
-        db.session.add(new_author)
-        db.session.commit()
-        return redirect(url_for('admin_bp.list_authors'))
+            new_author = Author(
+                author_firstname=author_firstname,
+                author_lastname=author_lastname,
+                author_birthday=author_birthday
+            )
+            db.session.add(new_author)
+            db.session.commit()
+            return redirect(url_for('admin_bp.list_authors'))
+        except Exception as e:
+            print("Erreur lors de l'ajout de l'auteur :", e)
+            return "Erreur lors de l'ajout de l'auteur", 400
+
     return render_template('add_author.html')
 
 @admin_bp.route('/edit_author/<int:author_id>', methods=['GET', 'POST'])
@@ -140,12 +152,18 @@ def list_categories():
 @admin_bp.route('/add_category', methods=['GET', 'POST'])
 def add_category():
     if request.method == 'POST':
-        category_name = request.form['category_name']
-        new_category = Category(category_name=category_name)
-        db.session.add(new_category)
-        db.session.commit()
-        return redirect(url_for('admin_bp.list_categories'))
+        try:
+            category_name = request.form['category_name']
+            new_category = Category(category_name=category_name)
+            db.session.add(new_category)
+            db.session.commit()
+            return redirect(url_for('admin_bp.list_categories'))
+        except Exception as e:
+            print("Erreur lors de l'ajout de la catégorie :", e)
+            return "Erreur lors de l'ajout de la catégorie", 400
+
     return render_template('add_category.html')
+
 
 @admin_bp.route('/edit_category/<int:category_id>', methods=['GET', 'POST'])
 def edit_category(category_id):
