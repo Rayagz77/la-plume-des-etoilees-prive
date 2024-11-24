@@ -1,4 +1,4 @@
-<form action="/add_category" method="post">
+<form action="{{ url_for('admin_bp.add_category') }}" method="post">
     <label for="category_name">Nom de la catégorie :</label>
     <input type="text" id="category_name" name="category_name" required><br>
 

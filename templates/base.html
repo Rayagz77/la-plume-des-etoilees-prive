@@ -10,38 +10,69 @@
 <body>
     <header>
         <div class="header-container">
+            <!-- Logo principal -->
             <div class="logo">
-                <img src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
+                </a>
             </div>
+
+            <!-- Nom du site -->
             <div class="web_name">
-                <img src="{{ url_for('static', filename='images/web_name.png') }}" alt="Logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/web_name.png') }}" alt="Nom du site">
+                </a>
             </div>
+
+            <!-- Icônes dans le header -->
             <div class="header-icons">
-                
-                <span class="icon" id="favorite-icon"><a href="{{ url_for('login.login') }}"><i class="fa-solid fa-user"></i></a>
+                <!-- Icône utilisateur -->
+                <span class="icon" id="user-icon">
+                    <a href="{{ url_for('login_bp.login') }}">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
                 </span>
-                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-heart"></i></a></span>
-                <span class="icon" id="favorite-icon"><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></span>      
-    
+
+                <!-- Icône des favoris -->
+                <span class="icon" id="favorite-icon">
+                    <a href="#">
+                        <i class="fa-solid fa-heart"></i>
+                    </a>
+                </span>
+
+                <!-- Icône du panier avec le nombre d'articles -->
+                <span class="icon" id="cart-icon">
+                    <a href="{{ url_for('cart_bp.view_cart') }}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        {% if cart_count > 0 %}
+                            <span class="cart-count">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </span>
+            </div>
         </div>
     </header>
     
-    <div class="content">
+    <!-- Section principale -->
+    <main class="content">
         {% block content %}{% endblock %}
-    </div>
-    
+    </main>
+
+    <!-- Pied de page -->
     <footer>
         <div class="footer-container">
-            <div class="footer-logo">            
-                <img class="logo_footer" src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo" />          
+            <div class="footer-logo">
+                <a href="{{ url_for('home') }}">
+                    <img class="logo_footer" src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
+                </a>
             </div>
             <div class="footer-links">
                 <ul>
-                    <li><a href="">Mentions Légales</a></li>
-                    <li><a href="">Politique de Confidentialité</a></li>
-                    <li><a href="">Politique des Cookies</a></li>
-                    <li><a href="">FAQ</a></li>
-                    <li><a href="">Contact</a></li>
+                    <li><a href="#">Mentions Légales</a></li>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">Politique des Cookies</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-social">
@@ -51,7 +82,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>2024 Miel des Mots site web. Tous droits réservés.</p>
+            <p>&copy; 2024 Miel des Mots. Tous droits réservés.</p>
         </div>
     </footer>
 </body>

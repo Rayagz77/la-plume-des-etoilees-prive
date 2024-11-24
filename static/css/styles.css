@@ -342,10 +342,39 @@ footer {
     margin-bottom: 20px;
 }
 
-/* Book gallery styling */
-.book-container {
-    flex: 1;
+/*********** Book gallery styling ********************/
+
+/*******verifions******/
+.book-list {
+    display: grid; /* Utilisation de grid pour l'alignement */
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes de largeur égale */
+    gap: 20px; /* Espace entre les livres */
+    justify-items: center; /* Centre les éléments horizontalement */
+    margin-top: 20px; /* Espacement au-dessus de la liste */
 }
+
+.book-box {
+    width: 280px; /* Largeur d'une boîte de livre */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.book-box img {
+    width: 100%; /* Adapte la largeur de l'image à la boîte */
+    height: auto; /* Maintient les proportions */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+/*******verifions******/
+
+
+
+/* .book-container {
+    flex: 1;
+} */
 
 
 .book-gallery h3 {
@@ -555,3 +584,5 @@ input[type="password"] {
    
     font-size:16px;
 }
+
+/***************CART*********************/
