@@ -3,7 +3,10 @@ body{
     
 }
 
-
+.cart-count{
+    font-size:14px;
+    color: rgb(182, 50, 50);
+}
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -18,7 +21,7 @@ body{
     align-items: center;
 }
 .logo img {
-    width: 160px !important; /* Ajuste la largeur du logo à ta convenance */
+    width: 210px !important; /* Ajuste la largeur du logo à ta convenance */
     height: auto !important; /* Maintient le ratio de l'image */
 }
 
@@ -586,3 +589,8 @@ input[type="password"] {
 }
 
 /***************CART*********************/
+
+
+/****************************************/
+
+

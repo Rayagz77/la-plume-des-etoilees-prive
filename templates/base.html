@@ -5,85 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Bienvenue sur mon site de livres{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+  
+     <!--===============base CSS ===============-->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+     <!--link rel="stylesheet" href="assets/css/gallery.css"-->
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <!-- Logo principal -->
-            <div class="logo">
-                <a href="{{ url_for('home') }}">
-                    <img src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
-                </a>
-            </div>
 
-            <!-- Nom du site -->
-            <div class="web_name">
-                <a href="{{ url_for('home') }}">
-                    <img src="{{ url_for('static', filename='images/web_name.png') }}" alt="Nom du site">
-                </a>
-            </div>
+    <!--=============== HEADER ===============-->
+    <header class="header">
+        <nav class="nav container">
+           <div class="nav__data">
+              <a href="#" class="nav__logo">
+                 <!--img src="assets/images/logo_10.png"  alt="Image du livre"-->
+                 <i class="ri-planet-line"></i> Company
+              </a>
+              
+              <div class="nav__toggle" id="nav-toggle">
+                 <i class="ri-menu-line nav__burger"></i>
+                 <i class="ri-close-line nav__close"></i>
+              </div>
+           </div>
 
-            <!-- Icônes dans le header -->
-            <div class="header-icons">
-                <!-- Icône utilisateur -->
-                <span class="icon" id="user-icon">
-                    <a href="{{ url_for('login_bp.login') }}">
-                        <i class="fa-solid fa-user"></i>
-                    </a>
-                </span>
+           <!--=============== NAV MENU ===============-->
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li><a href="#" class="nav__link">Accueil</a></li>
 
-                <!-- Icône des favoris -->
-                <span class="icon" id="favorite-icon">
-                    <a href="#">
-                        <i class="fa-solid fa-heart"></i>
-                    </a>
-                </span>
+                 <li><a href="#" class="nav__link">A propos</a></li>
 
-                <!-- Icône du panier avec le nombre d'articles -->
-                <span class="icon" id="cart-icon">
-                    <a href="{{ url_for('cart_bp.view_cart') }}">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        {% if cart_count > 0 %}
-                            <span class="cart-count">{{ cart_count }}</span>
-                        {% endif %}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Section principale -->
+                 <!--=============== DROPDOWN 1 ===============-->
+                 <li class="dropdown__item">
+                    <div class="nav__link">
+                       Nos livres <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                    </div>
+
+                    <ul class="dropdown__menu">
+                       <li>
+                          <a href="#" class="dropdown__link">
+                             <i class="ri-pie-chart-line"></i> Overview
+                          </a>                          
+                       </li>
+
+                       <li>
+                          <a href="#" class="dropdown__link">
+                             <i class="ri-arrow-up-down-line"></i> Transactions
+                          </a>
+                       </li>
+
+                       <!--=============== DROPDOWN SUBMENU ===============-->
+                       <li class="dropdown__subitem">
+                          <div class="dropdown__link">
+                             <i class="ri-bar-chart-line"></i> Reports <i class="ri-add-line dropdown__add"></i>
+                          </div>
+
+                          <ul class="dropdown__submenu">
+                             <li>
+                                <a href="#" class="dropdown__sublink">
+                                   <i class="ri-file-list-line"></i> Documents
+                                </a>
+                             </li>
+     
+                             <li>
+                                <a href="#" class="dropdown__sublink">
+                                   <i class="ri-cash-line"></i> Payments
+                                </a>
+                             </li>
+     
+                             <li>
+                                <a href="#" class="dropdown__sublink">
+                                   <i class="ri-refund-2-line"></i> Refunds
+                                </a>
+                             </li>
+                          </ul>
+                       </li>
+                    </ul>
+                 </li>
+                 
+                 <li><a href="#" class="nav__link">Contact</a></li>
+
+                 <!--=============== DROPDOWN 2 ===============-->
+                 <li class="dropdown__item">
+                    <div class="nav__link">
+                       connexion <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                    </div>
+
+                    <ul class="dropdown__menu">
+                       <li>
+                          <a href="#" class="dropdown__link">
+                             <i class="ri-user-line"></i> Profiles
+                          </a>                          
+                       </li>
+
+                       <li>
+                          <a href="#" class="dropdown__link">
+                             <i class="ri-lock-line"></i> Accounts
+                          </a>
+                       </li>
+
+                       <li>
+                          <a href="#" class="dropdown__link">
+                             <i class="ri-message-3-line"></i> Messages
+                          </a>
+                       </li>
+                    </ul>
+                 </li>
+
+                 <li><a href="#" class="nav__link">Générer votre histoire</a></li>
+                 <li><a href="{{ url_for('cart_bp.view_cart') }}" class="nav__link">panier {% if cart_count > 0 %}
+                  <span class="cart-count">{{ cart_count }}</span>
+              {% endif %}</a></li>
+              </ul>
+           </div>
+           
+        </nav>
+     </header>
+
+     <!-- Section principale -->
     <main class="content">
         {% block content %}{% endblock %}
     </main>
-
+    
+    
     <!-- Pied de page -->
-    <footer>
-        <div class="footer-container">
+
+    <footer class="footer">
+        <div class="container">
+            <!-- Logo -->
             <div class="footer-logo">
-                <a href="{{ url_for('home') }}">
-                    <img class="logo_footer" src="{{ url_for('static', filename='images/logo_miel_de_mots.png') }}" alt="Logo">
+                <a href="#">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" />
                 </a>
             </div>
-            <div class="footer-links">
-                <ul>
-                    <li><a href="#">Mentions Légales</a></li>
-                    <li><a href="#">Politique de Confidentialité</a></li>
-                    <li><a href="#">Politique des Cookies</a></li>
-                    <li><a href="#">FAQ</a></li>
+     
+            <!-- Menu -->
+            <nav class="footer-nav">
+                <ul class="footer-menu">
+                    <li><a href="#">RGPD</a></li>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">CGV</a></li>
+                    <li><a href="#">Cookies</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
-            </div>
+            </nav>
+     
+            <!-- Réseaux sociaux -->
             <div class="footer-social">
-                <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Miel des Mots. Tous droits réservés.</p>
-        </div>
-    </footer>
+     </footer>
+     
+          
+    
+         <!--=============== MAIN JS ===============-->
+         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
+
+

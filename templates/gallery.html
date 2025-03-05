@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Nos Livres{% endblock %}
+
+{% block content %}
+<main class="container">
+    <!-- Barre latérale -->
+    <aside class="sidebar-section">
+        <div class="search-container">
+            <input type="text" placeholder="Trouver un livre..." class="search-input">
+            <button class="search-button">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+
+        <div class="message-box">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <div class="flashes">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="filter-box">
+            <h3 class="filter-title">Filtrer par catégorie</h3>
+            <select id="category-filter" onchange="filterByCategory()">
+                <option value="">Choisir une catégorie</option>
+                {% for category in categories %}
+                    <option value="{{ category.category_id }}" {% if selected_category_id == category.category_id %}selected{% endif %}>
+                        {{ category.category_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </aside>
+
+    <!-- Galerie des livres -->
+    <section class="book-gallery-section">
+        <h3>Livres Disponibles</h3>
+        <div class="book-list">
+            {% for book in books %}
+                <div class="book-card">
+                    <img src="{{ book.book_image_url }}" alt="{{ book.book_title }}" class="book-cover">
+                    <h4 class="book-title">{{ book.book_title }}</h4>
+                    <p class="book-author">Auteur: {{ book.author.author_firstname }} {{ book.author.author_lastname }}</p>
+                    <p class="book-price">Prix: {{ book.book_price }} €</p>
+                    <form action="{{ url_for('cart_bp.add_to_cart', book_id=book.book_id) }}" method="post">
+                        <button type="submit" class="add-to-cart-btn">Ajouter au Panier</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>Aucun livre disponible.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('gallery', page=pagination.prev_num, category=selected_category_id) }}" class="pagination-link">Précédent</a>
+            {% endif %}
+            <span class="pagination-text">Page {{ pagination.page }} / {{ pagination.pages }}</span>
+            {% if pagination.has_next %}
+                <a href="{{ url_for('gallery', page=pagination.next_num, category=selected_category_id) }}" class="pagination-link">Suivant</a>
+            {% endif %}
+        </div>
+
+    </section>
+</main>
+
+<script>
+    function filterByCategory() {
+      const selectedCategory = document.getElementById("category-filter").value;
+      const url = selectedCategory ? `/books?category=${selectedCategory}` : '/books';
+      window.location.href = url;
+    }
+</script>
+  
+{% endblock %}

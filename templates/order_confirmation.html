@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de commande</title>
+</head>
+<body>
+    <h1>Confirmation de commande</h1>
+    <p>Merci pour votre commande !</p>
+    <p>Numéro de commande : {{ order.order_id }}</p>
+    <p>Date : {{ order.order_date }}</p>
+    <p>Total : {{ order.total_price }} €</p>
+    <h3>Détails de la commande :</h3>
+    <ul>
+        {% for detail in order.details %}
+        <li>{{ detail.book.book_title }} - {{ detail.quantity }} x {{ detail.unit_price }} €</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Retour à l'accueil</a>
+</body>
+</html>

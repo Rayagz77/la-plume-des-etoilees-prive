@@ -30,6 +30,10 @@
             {% endfor %}
         </tbody>
     </table>
+    <p>Total : {{ total_price }} €</p>
+    <form action="{{ url_for('cart_bp.validate_cart') }}" method="post">
+        <button type="submit">Valider le panier</button>
+    </form>
     {% else %}
     <p>Votre panier est vide.</p>
     {% endif %}

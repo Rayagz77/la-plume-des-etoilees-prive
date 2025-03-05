@@ -2,8 +2,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-from .user_model import User
+# Importer les modèles
 from .book_model import Book
-from .author_model import Author  
-from .category_model import Category  
+from .category_model import Category
+from .author_model import Author
 from .cart_items_model import CartItem
+from .order_model import Order, OrderDetail
+from flask_sqlalchemy import SQLAlchemy
+
+from .user_model import User  # Importez la classe User ici

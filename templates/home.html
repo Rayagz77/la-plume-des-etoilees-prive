@@ -2,102 +2,135 @@
 
 {% block title %}Page d'accueil{% endblock %}
 
+<!-- Section principale -->
 {% block content %}
 <main>
-    <div class="search-bar">
-        <input type="text" placeholder="Trouver un produit..." class="search-input">
-        <button class="search-button">
-            <i class="fa fa-search"></i>
-        </button>
-    </div>
-
-    <div class="horizontal-menu">
-        <a href="#">Accueil</a>
-        <a href="#">Catégories</a>
-        <a href="#">Offres spéciales</a>
-        <a href="#">Nouveautés</a>
-        <a href="#">Contact</a>
-    </div>
-
-    <div class="sidebar-menu-container">
-        <div class="sidebar">
-            <div class="message_box">
-                {% with messages = get_flashed_messages(with_categories=True) %}
-                    {% if messages %}
-                        <div class="flashes">
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-            </div>
-            <div class="box">
-                <h3>IA</h3>
-                <p>Recommandations IA.</p>
-            </div>
-            <div class="box">
-                <h3 class="filter-category">Filtrer par catégorie</h3>
-                <select id="category-filter" onchange="filterByCategory()">
-                    <option value="">Choisir une catégorie</option>
-                    {% for category in categories %}
-                        <option value="{{ category.category_id }}" {% if selected_category_id == category.category_id %}selected{% endif %}>
-                            {{ category.category_name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        
-        <div class="book-container">
-            <div class="book-gallery">
-                <h3>Livres Disponibles</h3>
-                <div class="book-list">
-                    {% for book in books %}
-                        <div class="book-box">
-                            <img src="{{ book.book_image_url }}" alt="{{ book.book_title }}">
-                            <h4>{{ book.book_title }}</h4>
-                            <p>Auteur: {{ book.author.author_firstname }} {{ book.author.author_lastname }}</p>
-                            <p>Prix: {{ book.book_price }} €</p>
-                            <form action="{{ url_for('cart_bp.add_to_cart', book_id=book.book_id) }}" method="post">
-                                <button type="submit">Ajouter au Panier</button>
-                            </form>
-                        </div>
-                    {% else %}
-                        <p>Aucun livre disponible.</p>
-                    {% endfor %}
+    <!-- SECTION TWO BLOCKS -->
+    <section class="two-blocks">
+        <div class="container">
+            <!-- Bloc gauche -->
+            <div class="text-block">
+                <h2>Découvrez nos livres uniques</h2>
+                <p>
+                    Explorez une collection d'histoires conçues pour développer la confiance en soi des enfants et adolescents.
+                    Ces livres, générés par une IA, offrent des récits captivants et personnalisés.
+                </p>
+                <div class="btn-group">
+                    <a href="#" class="btn" id="btn_1">En savoir plus</a>
+                    <a href="#" class="btn">Acheter maintenant</a>
                 </div>
             </div>
-        
-            <!-- Pagination -->
-            <div class="pagination">
-                {% if pagination.has_prev %}
-                    <a href="{{ url_for('home', page=pagination.prev_num) }}">Précédent</a>
-                {% endif %}
-                <span>Page {{ pagination.page }} / {{ pagination.pages }}</span>
-                {% if pagination.has_next %}
-                    <a href="{{ url_for('home', page=pagination.next_num) }}">Suivant</a>
-                {% endif %}
+            <!-- Bloc droit -->
+            <div class="image-block">
+                <img src="{{ url_for('static', filename='images/6.png') }}"  alt="Image du livre">
             </div>
         </div>
-        
-        
-        {# <div class="pagination">
-            {% if pagination.has_prev %}
-                <a href="{{ url_for('home', page=pagination.prev_num) }}">Précédent</a>
-            {% endif %}
-            <span>Page {{ pagination.page }} / {{ pagination.pages }}</span>
-            {% if pagination.has_next %}
-                <a href="{{ url_for('home', page=pagination.next_num) }}">Suivant</a>
-            {% endif %}
-        </div> #}
-    </div>
+    </section>
+
+    <section class="popular-books">
+       <div class="container">
+           <h2>Livres Populaires</h2>
+           <div class="books-slider">
+               <!-- Chevron gauche -->
+               <button class="slider-btn left-btn" id="left-btn">&#10094;</button>
+   
+               <!-- Track des livres -->
+               <div class="books-track" id="books-track">
+                   <!-- Livre 1 -->
+                   <div class="book">
+                       <img src="{{ url_for('static', filename='images/12.png') }}" class="popular_img" alt="Livre 1">
+                       <h3>Titre du Livre 1</h3>
+                       <p>Auteur : Auteur 1</p>
+                       <button class="btn">Découvrir</button>
+                   </div>
+                   <!-- Livre 2 -->
+                   <div class="book">
+                       <img src="{{ url_for('static', filename='images/12.png') }}" class="popular_img" alt="Livre 2">
+                       <h3>Titre du Livre 2</h3>
+                       <p>Auteur : Auteur 2</p>
+                       <button class="btn">Découvrir</button>
+                   </div>
+                   <!-- Livre 3 -->
+                   <div class="book">
+                       <img src="{{ url_for('static', filename='images/12.png') }}" class="popular_img" alt="Livre 3">
+                       <h3>Titre du Livre 3</h3>
+                       <p>Auteur : Auteur 3</p>
+                       <button class="btn">Découvrir</button>
+                   </div>
+                   <!-- Livre 4 -->
+                   <div class="book">
+                       <img src="{{ url_for('static', filename='images/12.png') }}" class="popular_img" alt="Livre 4">
+                       <h3>Titre du Livre 4</h3>
+                       <p>Auteur : Auteur 4</p>
+                       <button class="btn">Découvrir</button>
+                   </div>
+                   <!-- Livre 5 -->
+                   <div class="book">
+                       <img src="{{ url_for('static', filename='images/12.png') }}" class="popular_img" alt="Livre 5">
+                       <h3>Titre du Livre 5</h3>
+                       <p>Auteur : Auteur 5</p>
+                       <button class="btn">Découvrir</button>
+                   </div>
+               </div>
+   
+               <!-- Chevron droit -->
+               <button class="slider-btn right-btn" id="right-btn">&#10095;</button>
+           </div>
+       </div>
+   </section>
+   
+
+    <section class="stats-section">
+       <div class="container">
+           <!-- Bloc gauche avec texte -->
+           <div class="stats-text">
+               <h2>Trusted by Innovators Worldwide</h2>
+               <p>
+                   Stratum powers a global network of developers, businesses, and users, driving innovation in decentralized technology.
+                   Join the growing ecosystem that's shaping the future of blockchain.
+               </p>
+               <a href="#" class="btn">Learn More</a>
+           </div>
+   
+           <!-- Bloc droit avec les box -->
+           <div class="stats-grid">
+               <div class="stats-box">
+                   <h3>1000+</h3>
+                   <p>Active Developers</p>
+               </div>
+               <div class="stats-box">
+                   <h3>2B+</h3>
+                   <p>Transactions Processed</p>
+               </div>
+               <div class="stats-box">
+                   <h3>50+</h3>
+                   <p>Global Partners</p>
+               </div>
+               <div class="stats-box">
+                   <h3>99.9%</h3>
+                   <p>Network Uptime</p>
+               </div>
+           </div>
+       </div>
+   </section>
+
+   <section class="goals-solutions-section">
+       <div class="container">
+          <!-- Box de gauche -->
+          <div class="box">
+                
+          </div>
+
+          <!-- Box de droite -->
+          <div class="box"  id="rigth_box">
+                <h3>Solutions</h3>
+                <ul>
+                   <li>Simplified and structured content to make technical information accessible and easy to understand</li>
+                   <li>Intuitive navigation and user-friendly design tailored for developers and businesses</li>
+                   <li>Modern, visually appealing aesthetics that highlight Stratum’s technological innovation and reliability</li>
+                </ul>
+          </div>
+       </div>
+    </section>
 </main>
-<script>
-    function filterByCategory() {
-        const selectedCategory = document.getElementById("category-filter").value;
-        const url = selectedCategory ? `/?category=${selectedCategory}` : '/';
-        window.location.href = url;
-    }
-</script>
 {% endblock %}
