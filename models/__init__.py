@@ -8,6 +8,4 @@ from .category_model import Category
 from .author_model import Author
 from .cart_items_model import CartItem
 from .order_model import Order, OrderDetail
-from flask_sqlalchemy import SQLAlchemy
-
-from .user_model import User  # Importez la classe User ici
+from .user_model import User

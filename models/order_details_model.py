@@ -1,26 +1,15 @@
 from . import db
 
-class Order(db.Model):
-    __tablename__ = 'Orders'
-    order_id = db.Column(db.Integer, primary_key=True)
-    # Ajoute ici les autres colonnes dont tu as besoin, par exemple :
-    total_price = db.Column(db.Float, nullable=False)
-    payment_status = db.Column(db.String(20), default='pending')
-    # Relation vers OrderDetail
-    details = db.relationship('OrderDetail', back_populates='order', cascade="all, delete-orphan")
-
-    def __repr__(self):
-        return f"<Order {self.order_id}>"
-
 class OrderDetail(db.Model):
     __tablename__ = 'order_details'
+    
     order_details_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('Orders.order_id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('Book.book_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     unit_price = db.Column(db.Float, nullable=False)
 
-    # Relations vers Order et Book
+    # Relations (à adapter en fonction de vos modèles Order et Book)
     order = db.relationship('Order', back_populates='details')
     book = db.relationship('Book')
 

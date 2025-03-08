@@ -1,7 +1,7 @@
 # models/book_model.py
 from . import db
-from models.author_model import Author
-from models.category_model import Category
+from .author_model import Author
+from .category_model import Category
 
 class Book(db.Model):
     __tablename__ = 'Book'
@@ -16,7 +16,7 @@ class Book(db.Model):
     # Relations
     author = db.relationship('Author', backref='books')
     category = db.relationship('Category', backref='books')
-    cart_items = db.relationship('CartItem', back_populates='book')  # Modifiez le back_populates si nécessaire
+    cart_items = db.relationship('CartItem', back_populates='book')  # Assurez-vous que CartItem est défini ailleurs
 
     def __repr__(self):
         return f"<Book {self.book_title}>"
