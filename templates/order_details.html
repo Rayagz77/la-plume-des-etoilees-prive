@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails de la commande{% endblock %}
+
+{% block content %}
+<main class="order-details-container">
+    <h2>Commande #{{ order.order_id }}</h2>
+    <p>Date : {{ order.order_date.strftime('%d/%m/%Y') }}</p>
+    <p>Total : <strong>{{ order.total_price }} €</strong></p>
+    <p>Statut du paiement : <strong class="status {{ order.payment_status }}">{{ order.payment_status }}</strong></p>
+
+    <h3>📚 Livres commandés</h3>
+    <ul>
+        {% for detail in order.details %}
+            <li>
+                <strong>{{ detail.book.book_title }}</strong> - {{ detail.quantity }} x {{ detail.unit_price }} €
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="order-actions">
+        <a href="{{ url_for('account_bp.user_dashboard') }}" class="btn">Retour à mon compte</a>
+        <a href="{{ url_for('gallery') }}" class="btn">Acheter un autre livre</a>
+    </div>
+</main>
+{% endblock %}

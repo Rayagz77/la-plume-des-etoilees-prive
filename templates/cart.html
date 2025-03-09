@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Panier</title>
-</head>
-<body>
-    <h1>Mon Panier</h1>
-    {% if cart_items %}
+{% if cart_items %}
     <table>
         <thead>
             <tr>
@@ -30,12 +21,47 @@
             {% endfor %}
         </tbody>
     </table>
-    <p>Total : {{ total_price }} €</p>
-    <form action="{{ url_for('cart_bp.validate_cart') }}" method="post">
-        <button type="submit">Valider le panier</button>
+
+    <p>Total : <strong>{{ total_price }} €</strong></p>
+
+    <!-- Utilisation d'un formulaire avec id "cart-validation-form" -->
+    <form id="cart-validation-form" action="{{ url_for('cart_bp.validate_cart') }}" method="post">
+        <button id="validate-cart-btn" type="button">Valider le panier</button>
     </form>
-    {% else %}
+
+    <script>
+        document.getElementById("validate-cart-btn").addEventListener("click", function(event) {
+            event.preventDefault();  // Empêche le rechargement de la page
+    
+            fetch("{{ url_for('cart_bp.validate_cart') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect_url) {
+                    // Faire une requête POST vers Stripe en JavaScript
+                    fetch(data.redirect_url, { method: "POST" })
+                        .then(response => response.json())
+                        .then(paymentData => {
+                            if (paymentData.url) {
+                                window.location.href = paymentData.url;  // Redirection vers Stripe
+                            } else {
+                                alert("Erreur de paiement.");
+                            }
+                        })
+                        .catch(error => console.error("Erreur Stripe :", error));
+                } else {
+                    alert("Erreur lors de la validation du panier.");
+                }
+            })
+            .catch(error => console.error("Erreur :", error));
+        });
+    </script>
+    
+
+{% else %}
     <p>Votre panier est vide.</p>
-    {% endif %}
-</body>
-</html>
+{% endif %}

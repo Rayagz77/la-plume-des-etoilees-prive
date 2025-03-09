@@ -1,28 +1,20 @@
 from . import db
+from datetime import datetime
 
 class Order(db.Model):
-    __tablename__ = 'Orders'
+    __tablename__ = 'Orders'  # Table avec majuscule
+
     order_id = db.Column(db.Integer, primary_key=True)
-    # Ajoute ici les autres colonnes dont tu as besoin, par exemple :
+    user_id = db.Column(db.Integer, db.ForeignKey('User.user_id'), nullable=False)
+    order_date = db.Column(db.DateTime, default=datetime.utcnow)
     total_price = db.Column(db.Float, nullable=False)
     payment_status = db.Column(db.String(20), default='pending')
-    # Relation vers OrderDetail
+
+    # Relation avec User
+    user = db.relationship('User', back_populates='orders')
+
+    # Relation avec OrderDetail (sans import direct)
     details = db.relationship('OrderDetail', back_populates='order', cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<Order {self.order_id}>"
-
-class OrderDetail(db.Model):
-    __tablename__ = 'order_details'
-    order_details_id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('Orders.order_id'), nullable=False)
-    book_id = db.Column(db.Integer, db.ForeignKey('Book.book_id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False, default=1)
-    unit_price = db.Column(db.Float, nullable=False)
-
-    # Relations vers Order et Book
-    order = db.relationship('Order', back_populates='details')
-    book = db.relationship('Book')
-
-    def __repr__(self):
-        return f"<OrderDetail {self.order_details_id}>"
+        return f"<Order {self.order_id} - User {self.user_id}>"
