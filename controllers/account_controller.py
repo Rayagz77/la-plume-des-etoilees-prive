@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash
+from controllers.access_management import admin_required, user_required, guest_required
+
 from models import db
 from models.user_model import User
 from models.order_model import Order
@@ -8,6 +10,7 @@ from models.order_details_model import OrderDetail
 account_bp = Blueprint('account_bp', __name__)
 
 @account_bp.route('/account')
+@user_required
 def user_dashboard():
     """Affiche l'espace personnel de l'utilisateur."""
     user_id = session.get('user_id')
@@ -22,6 +25,7 @@ def user_dashboard():
 
 
 @account_bp.route('/account/order/<int:order_id>')
+@user_required
 def order_details(order_id):
     """Affiche les détails d'une commande spécifique."""
     user_id = session.get('user_id')

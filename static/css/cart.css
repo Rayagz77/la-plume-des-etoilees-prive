@@ -1,0 +1,659 @@
+/* Conteneur de la popup */
+.cart-modal {
+    position: absolute;
+    top: 75px; /* Ajuste selon la hauteur de ton header */
+    right: 5px;
+    width: 620px;
+    /*bottom: 20px;*/
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: none; /* Masqué par défaut */
+    z-index: 1000;
+}
+
+/* Contenu de la popup */
+.cart-content {
+    padding: 45px;
+}
+
+/* En-tête du panier */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.cart-header h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Icône de fermeture */
+.close-btn {
+    cursor: pointer;
+    font-size: 40px;
+}
+
+/* Liste des articles */
+.cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+
+.cart-item-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cart-item-subtitle {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Bouton de suppression */
+.remove-btn {
+    background: none;
+    border: none;
+    color:#6271F7;
+    cursor: pointer;
+    font-size: 16px;
+}
+.empty-cart{
+    padding: 10px;
+}
+/* Pied de page */
+.cart-footer {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.cart-total {
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+#checkout-btn {
+    width: 100%;
+    background-color: #6271F7;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#checkout-btn:hover {
+    background-color: #6271F7;
+}
+
+/*===============================
+RECAP PANIER
+================================*/
+.checkout-summary {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-summary h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.checkout-summary form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.checkout-summary label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.checkout-summary input[type="email"] {
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-items .item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 0.5rem;
+}
+
+.cart-items .item img {
+    border-radius: 0.5rem;
+}
+
+.summary-totals {
+    background-color: #f1f1f1;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.summary-totals p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.summary-totals hr {
+    margin: 1rem 0;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    background-color: #38a169;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2f855a;
+}
+
+/*===============================
+CONFIRMATION COMMANDE
+================================*/
+
+/* --------- Section principale centrée avec header/footer --------- */
+
+
+/* --------- Titres --------- */
+main.container h2 {
+    color: #2f855a;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+main.container h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    color: #333;
+}
+
+/* --------- Paragraphe & Texte --------- */
+main.container p {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* --------- Liste des détails de commande --------- */
+main.container ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+main.container ul li {
+    background-color: #f7f7f7;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #4299e1;
+    font-size: 1rem;
+}
+
+/* --------- Groupe de boutons --------- */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+/* --------- Boutons --------- */
+.btn-group .btn {
+    padding: 0.8rem 1.5rem;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-group .btn:hover {
+    background-color: #3182ce;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 600px) {
+    main.container {
+        margin: 80px 1rem 40px;
+        padding: 1.5rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .btn-group .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/*===============================
+ESPACE PERSO
+================================*/
+/* --------- Container principal de la page compte --------- */
+main.account-container {
+    max-width: 1000px;
+    margin: 100px auto 60px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+/* --------- Titres --------- */
+.account-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #2d3748;
+}
+
+.account-container h3 {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    color: #4a5568;
+}
+
+/* --------- Texte d'infos --------- */
+.account-container p {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+/* --------- Tableau des commandes --------- */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.orders-table thead {
+    background-color: #f7fafc;
+}
+
+.orders-table th, .orders-table td {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.orders-table th {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.orders-table td {
+    color: #555;
+}
+
+/* --------- Statut de paiement --------- */
+.status {
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status.paid {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+
+.status.pending {
+    background-color: #fefcbf;
+    color: #d69e2e;
+}
+
+.status.failed {
+    background-color: #fed7d7;
+    color: #c53030;
+}
+
+/* --------- Boutons --------- */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: #4299e1;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.btn:hover {
+    background-color: #3182ce;
+}
+
+/* --------- Action en bas --------- */
+.account-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 768px) {
+    .orders-table thead {
+        display: none;
+    }
+
+    .orders-table, .orders-table tbody, .orders-table tr, .orders-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .orders-table tr {
+        margin-bottom: 1rem;
+        background-color: #f9f9f9;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .orders-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .orders-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #666;
+    }
+}
+
+/*===============================
+CONNEXION
+================================*/
+/* --------- Section principale --------- */
+#login-main {
+    max-width: 450px;
+    margin: 100px auto 60px;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
+    box-sizing: border-box;
+}
+
+/* --------- Titre de la page --------- */
+.login-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #2d3748;
+}
+
+/* --------- Container de login --------- */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --------- Formulaire --------- */
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #4a5568;
+}
+
+.form-group input {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #4299e1;
+    outline: none;
+}
+
+/* --------- Bouton --------- */
+.login-button {
+    background-color: #4299e1;
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #3182ce;
+}
+
+/* --------- Lien vers l'inscription --------- */
+.register-link {
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.register-link a {
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* --------- Messages flash --------- */
+.flash-messages {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.alert {
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+
+.alert-error,
+.alert-danger {
+    background-color: #fed7d7;
+    color: #c53030;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 500px) {
+    #login-main {
+        margin: 80px 1rem 40px;
+        padding: 1.5rem;
+    }
+
+    .login-title {
+        font-size: 1.6rem;
+    }
+}
+
+/*===============================
+RECONNEXION
+================================*/
+/* --------- Container global --------- */
+.register_main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto 60px;
+    padding: 2rem;
+}
+
+/* --------- Boîte de formulaire --------- */
+.register_container {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+/* --------- Titre --------- */
+.register_container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #2d3748;
+}
+
+/* --------- Formulaire --------- */
+.register_container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.register_container input {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.register_container input:focus {
+    border-color: #4299e1;
+    outline: none;
+}
+
+/* --------- Bouton --------- */
+.register_container button {
+    padding: 0.8rem 1.2rem;
+    background-color: #4299e1;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register_container button:hover {
+    background-color: #3182ce;
+}
+
+/* --------- Lien vers connexion --------- */
+.register_container p {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.register_container a {
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register_container a:hover {
+    text-decoration: underline;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 500px) {
+    .register_main {
+        padding: 1rem;
+        margin: 80px 1rem 40px;
+    }
+
+    .register_container {
+        padding: 1.5rem;
+    }
+
+    .register_container h2 {
+        font-size: 1.6rem;
+    }
+}

@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
   
      <!--===============base CSS ===============-->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
      <!--link rel="stylesheet" href="assets/css/gallery.css"-->
 </head>
@@ -32,7 +33,7 @@
            <!--=============== NAV MENU ===============-->
            <div class="nav__menu" id="nav-menu">
               <ul class="nav__list">
-                 <li><a href="#" class="nav__link">Accueil</a></li>
+                 <li><a href="{{ url_for('home') }}" class="nav__link">Accueil</a></li>
 
                  <li><a href="#" class="nav__link">A propos</a></li>
 
@@ -44,14 +45,14 @@
 
                     <ul class="dropdown__menu">
                        <li>
-                          <a href="#" class="dropdown__link">
-                             <i class="ri-pie-chart-line"></i> Overview
-                          </a>                          
+                        <a href="{{ url_for('gallery') }}" class="dropdown__link">
+                           <i class="ri-pie-chart-line"></i> Tous les livres
+                        </a>                                
                        </li>
 
                        <li>
                           <a href="#" class="dropdown__link">
-                             <i class="ri-arrow-up-down-line"></i> Transactions
+                             <i class="ri-arrow-up-down-line"></i> Catégories
                           </a>
                        </li>
 
@@ -93,30 +94,36 @@
                     </div>
 
                     <ul class="dropdown__menu">
-                       <li>
-                          <a href="#" class="dropdown__link">
-                             <i class="ri-user-line"></i> Profiles
-                          </a>                          
-                       </li>
-
-                       <li>
-                          <a href="#" class="dropdown__link">
-                             <i class="ri-lock-line"></i> Accounts
-                          </a>
-                       </li>
-
-                       <li>
-                          <a href="#" class="dropdown__link">
-                             <i class="ri-message-3-line"></i> Messages
-                          </a>
-                       </li>
+                     {% if session.get('user_id') %}
+                     <li>
+                         <a href="{{ url_for('account_bp.user_dashboard') }}" class="dropdown__link">
+                             <i class="ri-user-line"></i> Mon espace
+                         </a>
+                     </li>
+                     <li>
+                         <a href="{{ url_for('login_bp.logout') }}" class="dropdown__link">
+                             <i class="ri-logout-box-r-line"></i> Se déconnecter
+                         </a>
+                     </li>
+                 {% else %}
+                     <li>
+                         <a href="{{ url_for('login_bp.login') }}" class="dropdown__link">
+                             <i class="ri-login-box-line"></i> Se connecter
+                         </a>
+                     </li>
+                 {% endif %}
+                 
                     </ul>
                  </li>
 
                  <li><a href="#" class="nav__link">Générer votre histoire</a></li>
-                 <li><a href="{{ url_for('cart_bp.view_cart') }}" class="nav__link">panier {% if cart_count > 0 %}
-                  <span class="cart-count">{{ cart_count }}</span>
-              {% endif %}</a></li>
+                 <li>
+                  <a href="#" class="nav__link" id="cart-link">
+                      Panier {% if cart_count > 0 %}
+                          <span class="cart-count">{{ cart_count }}</span>
+                      {% endif %}
+                  </a>
+              </li>
               </ul>
            </div>
            
@@ -131,7 +138,7 @@
     
     <!-- Pied de page -->
 
-    <footer class="footer">
+   <footer class="footer">
         <div class="container">
             <!-- Logo -->
             <div class="footer-logo">
@@ -159,12 +166,60 @@
                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
-     </footer>
+   </footer>
      
-          
-    
-         <!--=============== MAIN JS ===============-->
-         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+   
+      <!-- Fenêtre modale du panier -->
+      <div id="cart-modal" class="cart-modal">
+         <div class="cart-content">
+            <div class="cart-header">
+               <h2>Mon panier</h2>
+               <span class="close-btn">&times;</span>
+            </div>
+
+            <div class="cart-items">
+               {% if cart_items %}
+                     {% for item in cart_items %}
+                     <div class="cart-item">
+                        <img src="{{ item.book.book_image_url }}" alt="{{ item.book.book_title }}" class="cart-item-image">
+                        <div class="cart-item-details">
+                           <p class="cart-item-title">{{ item.book.book_title }}</p>
+                           <p class="cart-item-price">{{ item.book.book_price }} €</p>
+                        </div>
+                        <form action="{{ url_for('cart_bp.remove_from_cart', cart_item_id=item.cart_item_id) }}" method="post">
+                           <button type="submit" class="remove-btn">✖</button>
+                        </form>
+                     </div>
+                     {% endfor %}
+               {% else %}
+                     <p class="empty-cart">Votre panier est vide.</p>
+               {% endif %}
+            </div>
+
+            <div class="cart-footer">
+               <p class="cart-total">Total : <strong>{{ total_price }} €</strong></p>
+               <button id="checkout-btn">Valider mon panier</button>
+            </div>
+         </div>
+      </div>
+   <!--=============== MAIN JS ===============-->
+   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+
+   <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const checkoutBtn = document.getElementById("checkout-btn");
+          if (checkoutBtn) {
+              checkoutBtn.addEventListener("click", function () {
+                  // ✅ Nouvelle redirection vers la page de récapitulatif
+                  window.location.href = "{{ url_for('cart_bp.checkout_summary') }}";
+              });
+          }
+      });
+      </script>
+      
+      
+
 </body>
 </html>
 

@@ -1,5 +1,7 @@
 import os
 from flask import Blueprint, request, render_template, redirect, url_for, current_app
+from controllers.access_management import admin_required, user_required, guest_required
+
 from werkzeug.utils import secure_filename
 from models.book_model import Book
 from models.author_model import Author
@@ -10,16 +12,19 @@ admin_bp = Blueprint('admin_bp', __name__)
 
 # Tableau de bord
 @admin_bp.route('/admin_dashboard', methods=['GET'])
+@admin_required
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
 # CRUD Books
 @admin_bp.route('/books', methods=['GET'])
+@admin_required
 def list_books():
     books = Book.query.all()
     return render_template('list_books.html', books=books)
 
 @admin_bp.route('/add_book', methods=['GET', 'POST'])
+@admin_required
 def add_book():
     if request.method == 'POST':
         # Vérifiez que toutes les données nécessaires sont envoyées
@@ -60,6 +65,7 @@ def add_book():
     return render_template('add_book.html', authors=authors, categories=categories)
 
 @admin_bp.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
+@admin_required
 def edit_book(book_id):
     book = Book.query.get(book_id)
     if not book:
@@ -79,6 +85,7 @@ def edit_book(book_id):
     return render_template('edit_book.html', book=book, authors=authors, categories=categories)
 
 @admin_bp.route('/delete_book/<int:book_id>', methods=['POST'])
+@admin_required
 def delete_book(book_id):
     book = Book.query.get(book_id)
     if not book:
@@ -91,11 +98,13 @@ def delete_book(book_id):
 
 # CRUD Authors
 @admin_bp.route('/authors', methods=['GET'])
+@admin_required
 def list_authors():
     authors = Author.query.all()
     return render_template('list_authors.html', authors=authors)
 
 @admin_bp.route('/add_author', methods=['GET', 'POST'])
+@admin_required
 def add_author():
     if request.method == 'POST':
         try:
@@ -118,6 +127,7 @@ def add_author():
     return render_template('add_author.html')
 
 @admin_bp.route('/edit_author/<int:author_id>', methods=['GET', 'POST'])
+@admin_required
 def edit_author(author_id):
     author = Author.query.get(author_id)
     if not author:
@@ -133,6 +143,7 @@ def edit_author(author_id):
     return render_template('edit_author.html', author=author)
 
 @admin_bp.route('/delete_author/<int:author_id>', methods=['POST'])
+@admin_required
 def delete_author(author_id):
     author = Author.query.get(author_id)
     if not author:
@@ -145,11 +156,13 @@ def delete_author(author_id):
 
 # CRUD Categories
 @admin_bp.route('/categories', methods=['GET'])
+@admin_required
 def list_categories():
     categories = Category.query.all()
     return render_template('list_categories.html', categories=categories)
 
 @admin_bp.route('/add_category', methods=['GET', 'POST'])
+@admin_required
 def add_category():
     if request.method == 'POST':
         try:
@@ -166,6 +179,7 @@ def add_category():
 
 
 @admin_bp.route('/edit_category/<int:category_id>', methods=['GET', 'POST'])
+@admin_required
 def edit_category(category_id):
     category = Category.query.get(category_id)
     if not category:
@@ -179,6 +193,7 @@ def edit_category(category_id):
     return render_template('edit_category.html', category=category)
 
 @admin_bp.route('/delete_category/<int:category_id>', methods=['POST'])
+@admin_required
 def delete_category(category_id):
     category = Category.query.get(category_id)
     if not category:

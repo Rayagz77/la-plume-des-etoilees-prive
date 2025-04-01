@@ -10,32 +10,35 @@
 
     <h3>📚 Mes commandes</h3>
     {% if orders %}
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>Commande</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Statut</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr>
-                    <td>#{{ order.order_id }}</td>
-                    <td>{{ order.order_date.strftime('%d/%m/%Y') }}</td>
-                    <td>{{ order.total_price }} €</td>
-                    <td><span class="status {{ order.payment_status }}">{{ order.payment_status }}</span></td>
-                    <td>
-                        <a href="{{ url_for('account_bp.order_details', order_id=order.order_id) }}" class="btn">
-                            Voir détails
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Commande</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td data-label="Commande">#{{ order.order_id }}</td>
+                <td data-label="Date">{{ order.order_date.strftime('%d/%m/%Y') }}</td>
+                <td data-label="Total">{{ order.total_price }} €</td>
+                <td data-label="Statut">
+                    <span class="status {{ order.payment_status }}">{{ order.payment_status }}</span>
+                </td>
+                <td data-label="Action">
+                    <a href="{{ url_for('account_bp.order_details', order_id=order.order_id) }}" class="btn">
+                        Voir détails
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
     {% else %}
         <p>Aucune commande enregistrée.</p>
     {% endif %}

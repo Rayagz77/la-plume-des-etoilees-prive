@@ -1,67 +1,38 @@
-{% if cart_items %}
-    <table>
-        <thead>
-            <tr>
-                <th>Livre</th>
-                <th>Prix</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+<div id="cart-modal" class="cart-modal">
+    <div class="cart-content">
+        <!-- En-tête -->
+        <div class="cart-header">
+            <h2>Mon panier</h2>
+            <span class="close-btn">&times;</span>
+        </div>
+
+        <!-- Contenu du panier -->
+        {% if cart_items %}
+        <div class="cart-items">
             {% for item in cart_items %}
-            <tr>
-                <td>{{ item.book.book_title }}</td>
-                <td>{{ item.book.book_price }} €</td>
-                <td>
-                    <form action="{{ url_for('cart_bp.remove_from_cart', cart_item_id=item.cart_item_id) }}" method="post">
-                        <button type="submit">Retirer</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="cart-item">
+                <img src="{{ item.book.book_image_url }}" alt="{{ item.book.book_title }}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <p class="cart-item-title">{{ item.book.book_title }}</p>
+                    <p class="cart-item-subtitle">{{ item.book.book_price }} €</p>
+                </div>
+                <form action="{{ url_for('cart_bp.remove_from_cart', cart_item_id=item.cart_item_id) }}" method="post">
+                    <button type="submit" class="remove-btn">✖</button>
+                </form>
+            </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
 
-    <p>Total : <strong>{{ total_price }} €</strong></p>
-
-    <!-- Utilisation d'un formulaire avec id "cart-validation-form" -->
-    <form id="cart-validation-form" action="{{ url_for('cart_bp.validate_cart') }}" method="post">
-        <button id="validate-cart-btn" type="button">Valider le panier</button>
-    </form>
-
-    <script>
-        document.getElementById("validate-cart-btn").addEventListener("click", function(event) {
-            event.preventDefault();  // Empêche le rechargement de la page
+        <!-- Pied de page -->
+        <div class="cart-footer">
+            <p class="cart-total">Sous-total : <strong>{{ total_price }} €</strong></p>
+            <button id="checkout-btn">Paiement</button>
+        </div>
+        {% else %}
+        <p class="empty-cart">Votre panier est vide.</p>
+        {% endif %}
+    </div>
     
-            fetch("{{ url_for('cart_bp.validate_cart') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.redirect_url) {
-                    // Faire une requête POST vers Stripe en JavaScript
-                    fetch(data.redirect_url, { method: "POST" })
-                        .then(response => response.json())
-                        .then(paymentData => {
-                            if (paymentData.url) {
-                                window.location.href = paymentData.url;  // Redirection vers Stripe
-                            } else {
-                                alert("Erreur de paiement.");
-                            }
-                        })
-                        .catch(error => console.error("Erreur Stripe :", error));
-                } else {
-                    alert("Erreur lors de la validation du panier.");
-                }
-            })
-            .catch(error => console.error("Erreur :", error));
-        });
-    </script>
-    
+</div>
 
-{% else %}
-    <p>Votre panier est vide.</p>
-{% endif %}
+

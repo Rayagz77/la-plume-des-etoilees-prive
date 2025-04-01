@@ -1,4 +1,4 @@
-from . import db
+from .import db
 
 class Category(db.Model):
     __tablename__ = 'Category'  # Nom exact de la table en base de données

@@ -1,5 +1,5 @@
 # models/cart_model.py
-from . import db
+from .import db
 
 class CartItem(db.Model):
     __tablename__ = 'cart_items'

@@ -1,5 +1,5 @@
 # models/book_model.py
-from . import db
+from .import db
 from .author_model import Author
 from .category_model import Category
 

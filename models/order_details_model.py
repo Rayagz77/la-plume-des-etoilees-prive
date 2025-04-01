@@ -1,16 +1,16 @@
-from . import db
-from .book_model import Book  # Import correct de Book (pas Order)
+from .import db
+from .book_model import Book  
 
 class OrderDetail(db.Model):
-    __tablename__ = 'order_details'  # Table en minuscule
+    __tablename__ = 'order_details'  
 
     order_details_id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('Orders.order_id'), nullable=False)  # Vérifie la casse !
+    order_id = db.Column(db.Integer, db.ForeignKey('Orders.order_id'), nullable=False)  
     book_id = db.Column(db.Integer, db.ForeignKey('Book.book_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     unit_price = db.Column(db.Float, nullable=False)
 
-    # Relations (sans import direct de Order)
+    # Relations 
     order = db.relationship('Order', back_populates='details')
     book = db.relationship('Book')
 
