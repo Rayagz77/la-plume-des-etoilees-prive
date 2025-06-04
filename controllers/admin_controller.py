@@ -17,12 +17,15 @@ def admin_dashboard():
     return render_template('admin_dashboard.html')
 
 # CRUD Books
+
+# READ 
 @admin_bp.route('/books', methods=['GET'])
 @admin_required
 def list_books():
     books = Book.query.all()
     return render_template('list_books.html', books=books)
 
+# CREATE
 @admin_bp.route('/add_book', methods=['GET', 'POST'])
 @admin_required
 def add_book():
@@ -64,6 +67,7 @@ def add_book():
     categories = Category.query.all()
     return render_template('add_book.html', authors=authors, categories=categories)
 
+# UPDATE
 @admin_bp.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_book(book_id):
@@ -84,6 +88,7 @@ def edit_book(book_id):
     categories = Category.query.all()
     return render_template('edit_book.html', book=book, authors=authors, categories=categories)
 
+# DELETE
 @admin_bp.route('/delete_book/<int:book_id>', methods=['POST'])
 @admin_required
 def delete_book(book_id):

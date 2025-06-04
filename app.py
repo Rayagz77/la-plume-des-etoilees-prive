@@ -1,127 +1,165 @@
+from __future__ import annotations
+
+"""Flask application factory (robust version).
+
+– Charge .env une seule fois.
+– Construit l’URI PostgreSQL en échappant correctement le mot de passe
+  pour éviter les erreurs UnicodeDecodeError avec psycopg2.
+– Conserve toute la logique métier et les blueprints existants.
+"""
+
+from pathlib import Path
 import os
 import sys
-from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify
-from dotenv import load_dotenv
-from flask_login import LoginManager
+from urllib.parse import quote_plus
 
+from dotenv import load_dotenv
+from flask import Flask, render_template, request, session
+from flask_login import LoginManager
 from flask_migrate import Migrate
 import stripe
 
-# 📌 Ajouter le dossier courant pour permettre les imports relatifs
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# ----------------------------------------------------------------------------
+#  Environnement & variables
+# ----------------------------------------------------------------------------
+BASE_DIR = Path(__file__).resolve().parent
 
-# 📌 Charger les variables d'environnement (.env)
-load_dotenv()
+# S'assure que le dossier projet est dans PYTHONPATH pour que ``import models`` fonctionne
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
 
-# 📌 Importer les modules internes
-from models import db
-from models.book_model import Book
-from models.user_model import User
-from models.category_model import Category
-from models.author_model import Author
-from models.cart_items_model import CartItem
-from models.order_details_model import OrderDetail
+load_dotenv(BASE_DIR / ".env", override=True)  # charge .env (UTF-8 conseillé)
 
-from controllers.access_management import admin_required, user_required, guest_required
-from controllers.register_controller import register_bp
-from controllers.auth_controller import login_bp
-from controllers.admin_controller import admin_bp
-from controllers.cart_controller import cart_bp
-from controllers.payement_controller import payement_bp
-from controllers.account_controller import account_bp
+print(f"⇢ Python interpreter : {sys.executable}")
+print(f"⇢ .env loaded from  : {BASE_DIR / '.env'}")
 
-# 📌 Configuration Stripe
+# -- Construction sûre de l'URI Postgres
+DB_USER: str = os.getenv("DB_USER", "postgres")
+DB_PASSWORD: str = quote_plus(os.getenv("DB_PASSWORD", ""))
+DB_HOST: str = os.getenv("DB_HOST", "localhost")
+DB_PORT: str = os.getenv("DB_PORT", "5432")
+DB_NAME: str = os.getenv("DB_NAME", "db_psql_library")
+
+DEFAULT_DB_URI = (
+    f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
+
+# .env peut éventuellement surcharger la valeur calculée
+DATABASE_URI = os.getenv("DATABASE_URI", DEFAULT_DB_URI)
+
+# ----------------------------------------------------------------------------
+#  Flask factory
+# ----------------------------------------------------------------------------
+
+from models import db  # noqa: E402 (import après modification sys.path)
+from models.book_model import Book  # noqa: E402
+from models.user_model import User  # noqa: E402
+from models.category_model import Category  # noqa: E402
+from models.cart_items_model import CartItem  # noqa: E402
+
+from controllers.register_controller import register_bp  # noqa: E402
+from controllers.auth_controller import login_bp  # noqa: E402
+from controllers.admin_controller import admin_bp  # noqa: E402
+from controllers.cart_controller import cart_bp  # noqa: E402
+from controllers.payement_controller import payement_bp  # noqa: E402
+from controllers.account_controller import account_bp  # noqa: E402
+
+from extensions import init_mongo  # noqa: E402
+
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 if not stripe.api_key:
-    raise ValueError("❌ STRIPE_SECRET_KEY doit être défini dans le fichier .env")
+    raise RuntimeError("STRIPE_SECRET_KEY is missing from environment")
 
-# 📌 Créer l'application Flask
-def create_app():
-    app = Flask(__name__)
 
-    # 📌 Configuration de l'application
-    db_uri = os.getenv("DATABASE_URI")
-    secret_key = os.getenv("SECRET_KEY")
+def create_app() -> Flask:
+    """Application factory."""
 
-    if not db_uri:
-        raise ValueError("❌ DATABASE_URI doit être défini dans le fichier .env")
-    if not secret_key:
-        raise ValueError("❌ SECRET_KEY doit être défini dans le fichier .env")
+    app = Flask(
+        __name__, template_folder="templates", static_folder="static"
+    )
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = secret_key
+    # ---- Core configuration
+    app.config.update(
+        SQLALCHEMY_DATABASE_URI=DATABASE_URI,
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SECRET_KEY=os.getenv("SECRET_KEY"),
+    )
 
-    # 📌 Initialiser les extensions
+    if not app.config["SECRET_KEY"]:
+        raise RuntimeError("SECRET_KEY is missing from environment")
+
+    print("⇢ SQLAlchemy URI :", app.config["SQLALCHEMY_DATABASE_URI"])
+
+    # ---- Extensions
     db.init_app(app)
-    migrate = Migrate(app, db)
+    Migrate(app, db)
+    init_mongo(app)
 
-    # ✅ INITIALISATION FLASK-LOGIN
-  
- # ✅ INITIALISATION FLASK-LOGIN
-    login_manager = LoginManager()
-    login_manager.init_app(app)  # C’est cette ligne qui rend current_user utilisable
-    login_manager.login_view = 'login_bp.login'
-    login_manager.login_message_category = "warning"
+    # ---- Authentication
+    login_mgr = LoginManager(app)
+    login_mgr.login_view = "login_bp.login"
+    login_mgr.login_message_category = "warning"
 
-    # ✅ Important : user_loader ici
-    @login_manager.user_loader
-    def load_user(user_id):
+    @login_mgr.user_loader
+    def load_user(user_id: str):
         return User.query.get(int(user_id))
 
+    # ---- Blueprints
+    app.register_blueprint(register_bp, url_prefix="/register")
+    app.register_blueprint(login_bp, url_prefix="/auth")
+    app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(cart_bp, url_prefix="/cart")
+    app.register_blueprint(payement_bp, url_prefix="/payement")
+    app.register_blueprint(account_bp, url_prefix="/account")
 
-    # 📌 Blueprints
-    app.register_blueprint(register_bp, url_prefix='/register')
-    app.register_blueprint(login_bp, url_prefix='/auth')
-    app.register_blueprint(admin_bp, url_prefix='/admin')
-    app.register_blueprint(cart_bp, url_prefix='/cart')
-    app.register_blueprint(payement_bp, url_prefix='/payement')
-    app.register_blueprint(account_bp, url_prefix='/account')
-
-    # 📌 Variables accessibles dans tous les templates
+    # ---- Template context processors
     @app.context_processor
     def inject_cart_data():
-        if 'user_id' in session:
-            cart_items = CartItem.query.filter_by(user_id=session['user_id']).all()
+        if "user_id" in session:
+            cart_items = CartItem.query.filter_by(user_id=session["user_id"]).all()
             total_price = sum(item.book.book_price for item in cart_items)
-            return {
-                'cart_items': cart_items,
-                'total_price': total_price,
-                'cart_count': len(cart_items)
-            }
-        return {'cart_items': [], 'total_price': 0, 'cart_count': 0}
+            return dict(
+                cart_items=cart_items,
+                total_price=total_price,
+                cart_count=len(cart_items),
+            )
+        return dict(cart_items=[], total_price=0, cart_count=0)
 
-    # 📌 Page d'accueil
-    @app.route('/')
+    # ---- Routes
+    @app.route("/")
     def home():
-        return render_template('home.html')
+        return render_template("home.html")
 
-    # 📌 Galerie de livres
-    @app.route('/books')
+    @app.route("/books")
     def gallery():
-        try:
-            selected_category_id = request.args.get('category', type=int)
-            page = request.args.get('page', 1, type=int)
-            per_page = 9
+        selected_category_id = request.args.get("category", type=int)
+        page = request.args.get("page", 1, type=int)
+        per_page = 9
 
-            query = Book.query
-            if selected_category_id:
-                query = query.filter_by(category_id=selected_category_id)
+        query = Book.query
+        if selected_category_id:
+            query = query.filter_by(category_id=selected_category_id)
 
-            pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+        pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+        return render_template(
+            "gallery.html",
+            books=pagination.items,
+            pagination=pagination,
+            categories=Category.query.all(),
+            selected_category_id=selected_category_id,
+        )
 
-            return render_template('gallery.html',
-                                   books=pagination.items,
-                                   pagination=pagination,
-                                   categories=Category.query.all(),
-                                   selected_category_id=selected_category_id)
-        except Exception as e:
-            print(f"⚠️ Erreur dans gallery(): {e}")
-            return render_template('error.html', error_message="Une erreur est survenue.")
+    @app.route("/books/<int:book_id>")
+    def book_detail(book_id: int):
+        book = Book.query.get_or_404(book_id)
+        return render_template("book_detail.html", book=book)
 
     return app
 
-# 📌 Exécution
-if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)
+
+# ----------------------------------------------------------------------------
+#  Entrée directe
+# ----------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    create_app().run(debug=True)

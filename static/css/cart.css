@@ -114,100 +114,231 @@
 /*===============================
 RECAP PANIER
 ================================*/
-.checkout-summary {
-    max-width: 800px;
-    margin: 40px auto;
+
+:root {
+    --primary-color: #6b46c1;
+    --primary-hover: #553c9a;
+    --secondary-color: #edf2f7;
+    --accent-color: #38a169;
+    --dark-color: #2d3748;
+    --gray-color: #a0aec0;
+    --text-color: #2d3748;
+    --background-light: #f7fafc;
+}
+
+/* --------- Structure principale --------- */
+.checkout-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 100px auto 60px;
+    max-width: 1200px;
     padding: 2rem;
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--background-light);
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
-.checkout-summary h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-}
-
-.checkout-summary form {
+/* --------- Partie gauche --------- */
+.cart-section {
+    flex: 2;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.checkout-summary label {
+.cart-item {
+    display: flex;
+    gap: 1rem;
+    /*background: white;*/
+    padding: 1rem;
+    border-radius: 1rem;
+    /*box-shadow: 0 2px 10px rgba(0,0,0,0.05);*/
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-4px);
+}
+
+.cart-details .book-title {
     font-weight: 600;
-    margin-bottom: 0.3rem;
-    display: block;
+    font-size: 1.1rem;
+    color: var(--text-color);
 }
 
-.checkout-summary input[type="email"] {
-    padding: 0.7rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    width: 100%;
-    font-size: 1rem;
+.cart-details .price {
+    color: var(--primary-color);
+    font-weight: bold;
 }
 
-.cart-items {
+.delivery-estimate {
+    font-size: 0.85rem;
+    color: var(--gray-color);
+}
+
+/* --------- Partie droite --------- */
+.summary-section {
+    flex: 1;
+    /*background: rgb(253, 253, 254);*/
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    justify-content: space-between;
 }
 
-.cart-items .item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: #f9f9f9;
+.summary-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* --------- Email --------- */
+.email-box label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.email-box input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #ccc;
     border-radius: 0.5rem;
-}
-
-.cart-items .item img {
-    border-radius: 0.5rem;
-}
-
-.summary-totals {
-    background-color: #f1f1f1;
-    padding: 1rem;
-    border-radius: 0.5rem;
-}
-
-.summary-totals p {
-    margin: 0.5rem 0;
+    margin-bottom: 1rem;
     font-size: 1rem;
 }
 
-.summary-totals hr {
-    margin: 1rem 0;
+/* --------- Résumé --------- */
+.order-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-color);
 }
 
-.btn {
-    padding: 0.8rem 1.5rem;
-    background-color: #38a169;
+.order-summary .total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* --------- Promo --------- */
+.promo-box {
+    display: flex;
+    margin: 1rem 0;
+    gap: 0.5rem;
+}
+
+.promo-box input {
+    flex: 1;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+.promo-box button {
+    padding: 0.7rem 1rem;
+    background-color: var(--dark-color);
     color: white;
     border: none;
     border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.promo-box button:hover {
+    background-color: #1a202c;
+}
+
+/* --------- Bouton de validation --------- */
+.btn.primary {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
     font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    margin-top: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #2f855a;
+.btn.primary:hover {
+    background-color: var(--primary-hover);
 }
+
+/* --------- Moyens de paiement --------- */
+.payment-options {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--gray-color);
+}
+
+.payment-options .icons {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.payment-options .icons img {
+    height: 30px;
+    object-fit: contain;
+    filter: grayscale(60%);
+    transition: filter 0.3s ease;
+}
+
+.payment-options .icons img:hover {
+    filter: none;
+}
+
+
 
 /*===============================
 CONFIRMATION COMMANDE
 ================================*/
+:root {
+    --header-height: 3.5rem;
+  
+    /*========== Colors ==========*/
+    /*Color mode HSL(hue, saturation, lightness)*/
+    --black-color: hsl(220, 24%, 12%);
+    --black-color-light: hsl(220, 24%, 15%);
+    --black-color-lighten: hsl(220, 20%, 18%);
+    --white-color: #fff;
+    --body-color: hsl(0, 0%, 100%);
+}
+/* --------- Fond général --------- */
+body {
+    background: linear-gradient(145deg, #f9fafb, #f1f5f9); /* plus doux */
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #2d3748;
+    
+}
 
-/* --------- Section principale centrée avec header/footer --------- */
-
+/* --------- Section principale --------- */
+main.container {
+    background-color: #ffffff;
+    box-shadow: 0 12px 30px rgba(101, 100, 255, 0.08); /* doux violet/bleu */
+    padding: 2rem;
+    border-radius: 1.2rem;
+    max-width: 900px;
+    margin: 100px auto 60px;
+}
 
 /* --------- Titres --------- */
 main.container h2 {
-    color: #2f855a;
+    color: #4b0082; /* indigo royal */
     text-align: center;
     font-size: 2rem;
     margin-bottom: 1.5rem;
@@ -216,15 +347,15 @@ main.container h2 {
 main.container h3 {
     font-size: 1.5rem;
     margin-top: 2rem;
-    color: #333;
+    color: #5a5a89;
 }
 
-/* --------- Paragraphe & Texte --------- */
+/* --------- Texte --------- */
 main.container p {
     font-size: 1.1rem;
     margin: 1rem 0;
     line-height: 1.6;
-    color: #444;
+    color: #555;
 }
 
 /* --------- Liste des détails de commande --------- */
@@ -235,11 +366,11 @@ main.container ul {
 }
 
 main.container ul li {
-    background-color: #f7f7f7;
+    background-color: #f1f4fa;
     padding: 0.7rem 1rem;
     margin-bottom: 0.5rem;
     border-radius: 0.5rem;
-    border-left: 4px solid #4299e1;
+    border-left: 4px solid #6b46c1;
     font-size: 1rem;
 }
 
@@ -255,17 +386,67 @@ main.container ul li {
 /* --------- Boutons --------- */
 .btn-group .btn {
     padding: 0.8rem 1.5rem;
-    background-color: #4299e1;
+    background-color: #6b46c1;
     color: white;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
     text-decoration: none;
     font-size: 1rem;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(107, 70, 193, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .btn-group .btn:hover {
-    background-color: #3182ce;
+    background-color: #553c9a;
+    transform: translateY(-2px);
+}
+
+/* --------- Zone "Payez avec" --------- */
+.pay {
+    font-size: 1.5rem !important;
+    padding-bottom: 1rem;
+    font-family: system-ui, sans-serif;
+    color: #333;
+}
+
+.payment-options {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f8f9ff;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(169, 170, 255, 0.15);
+}
+
+.payment-options p {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #4a4a77;
+}
+
+.payment-options .icons-img {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.payment-options .icons-img img {
+    height: 40px;
+    width: 80px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.payment-options .icons-img img:hover {
+    transform: scale(1.15);
+    filter: brightness(1.1);
 }
 
 /* --------- Responsive --------- */
@@ -283,377 +464,637 @@ main.container ul li {
         width: 100%;
         text-align: center;
     }
+
+    .payment-options .icons-img {
+        justify-content: center;
+    }
 }
 
 /*===============================
 ESPACE PERSO
 ================================*/
-/* --------- Container principal de la page compte --------- */
-main.account-container {
-    max-width: 1000px;
-    margin: 100px auto 60px;
+.outer-wrapper {
+    display: flex;
+    justify-content: center;
     padding: 2rem;
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-}
-
-/* --------- Titres --------- */
-.account-container h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: #2d3748;
-}
-
-.account-container h3 {
-    font-size: 1.4rem;
-    margin-top: 2rem;
-    color: #4a5568;
-}
-
-/* --------- Texte d'infos --------- */
-.account-container p {
-    font-size: 1.1rem;
-    color: #444;
-    margin-bottom: 0.5rem;
-}
-
-/* --------- Tableau des commandes --------- */
-.orders-table {
+    background-color: #f5f7fa;
+  }
+  
+  .main-box {
+    max-width: 1200px;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    font-size: 1rem;
-}
-
-.orders-table thead {
-    background-color: #f7fafc;
-}
-
-.orders-table th, .orders-table td {
-    text-align: left;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.orders-table th {
-    color: #2d3748;
-    font-weight: 600;
-}
-
-.orders-table td {
-    color: #555;
-}
-
-/* --------- Statut de paiement --------- */
-.status {
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-.status.paid {
-    background-color: #c6f6d5;
-    color: #2f855a;
-}
-
-.status.pending {
-    background-color: #fefcbf;
-    color: #d69e2e;
-}
-
-.status.failed {
-    background-color: #fed7d7;
-    color: #c53030;
-}
-
-/* --------- Boutons --------- */
-.btn {
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background-color: #4299e1;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    transition: background-color 0.3s ease;
-    font-size: 0.95rem;
-}
-
-.btn:hover {
-    background-color: #3182ce;
-}
-
-/* --------- Action en bas --------- */
-.account-actions {
-    margin-top: 2rem;
-    text-align: center;
-}
-
-/* --------- Responsive --------- */
-@media (max-width: 768px) {
-    .orders-table thead {
-        display: none;
-    }
-
-    .orders-table, .orders-table tbody, .orders-table tr, .orders-table td {
-        display: block;
-        width: 100%;
-    }
-
-    .orders-table tr {
-        margin-bottom: 1rem;
-        background-color: #f9f9f9;
-        border-radius: 0.5rem;
-        padding: 1rem;
-    }
-
-    .orders-table td {
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-    }
-
-    .orders-table td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 1rem;
-        width: 45%;
-        text-align: left;
-        font-weight: bold;
-        color: #666;
-    }
-}
-
-/*===============================
-CONNEXION
-================================*/
-/* --------- Section principale --------- */
-#login-main {
-    max-width: 450px;
-    margin: 100px auto 60px;
+    background: transparent;
+  }
+  
+  /* CONTENU PRINCIPAL */
+  .dashboard-content {
+    padding: 0;
+  }
+  
+  /* BOITE GLOBALE : SIDEBAR + TABLEAU */
+  .box2 {
+    background: rgb(254, 253, 255);
     padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
-    box-sizing: border-box;
-}
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 30px;
 
-/* --------- Titre de la page --------- */
-.login-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #2d3748;
-}
-
-/* --------- Container de login --------- */
-.login-container {
+  }
+  .btn-upgrade{
+    background:#3b82f6;
+  }
+  
+  /* SIDEBAR intégrée */
+  .inner-sidebar {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    background-color: #fff;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-}
-
-/* --------- Formulaire --------- */
-#login-form {
+  }
+  
+  .inner-sidebar .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .inner-sidebar .user-info i {
+    font-size: 2rem;
+    color: #6366f1;
+  }
+  
+  .inner-sidebar h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .inner-sidebar p {
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+  
+  .nav-links {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-}
-
-.form-group {
+    gap: 0.5rem;
+  }
+  .ri-shopping-bag-3-line{
+    font-size:20px;
+    color:#ea7d08 ;
+  }
+  .ri-user-3-line{
+    font-size:20px;
+    color:#ea7d08 ;
+  }
+  .ri-lock-2-line{
+    font-size:20px;
+    color:#ea7d08 ;
+  }
+  .ri-logout-box-line{
+    font-size:20px;
+    color:#ea7d08 ;
+  }
+  
+  .nav-links a {
     display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    color: #4a5568;
-}
-
-.form-group input {
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus {
-    border-color: #4299e1;
-    outline: none;
-}
-
-/* --------- Bouton --------- */
-.login-button {
-    background-color: #4299e1;
-    color: white;
-    padding: 0.8rem 1.2rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-    background-color: #3182ce;
-}
-
-/* --------- Lien vers l'inscription --------- */
-.register-link {
-    text-align: center;
-    font-size: 0.95rem;
-}
-
-.register-link a {
-    color: #4299e1;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: #1f2937;
     text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+  }
+  
+  .nav-links a:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .cta-upgrade {
+    margin-top: auto;
+    font-size: 0.9rem;
+  }
+  
+  .btn-upgrade {
+    display: inline-block;
+    margin-top: 0.5rem;
+    background: #3a3dda;
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  /* SECTION COMMANDE */
+  .order-section {
+    flex: 2;
+    min-width: 400px;
+    box-shadow: 0 4px 20px rgba(140, 126, 232, 0.6);
+    border-radius: 20px;
+    padding: 50px;
+  }
+  
+  .section-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .section-header p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* TABLEAU */
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 20px;
+    
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .orders-table th {
+    color: #4914d3;
+    font-weight: 600;
+  }
+  
+  .orders-table td {
     font-weight: 500;
-}
-
-.register-link a:hover {
-    text-decoration: underline;
-}
-
-/* --------- Messages flash --------- */
-.flash-messages {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.alert {
-    padding: 0.8rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.alert-success {
-    background-color: #c6f6d5;
-    color: #2f855a;
-}
-
-.alert-error,
-.alert-danger {
-    background-color: #fed7d7;
-    color: #c53030;
-}
-
-/* --------- Responsive --------- */
-@media (max-width: 500px) {
-    #login-main {
-        margin: 80px 1rem 40px;
-        padding: 1.5rem;
+    color: #374151;
+  }
+  
+  .status {
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  .status.paid {
+    background: #f9faf9;
+    color: #0cb64a;
+  }
+  
+  .status.pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  .status.failed {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .btn-view {
+    font-size: 1.2rem;
+    color: #101214;
+  }
+  
+  /* --------- RESPONSIVE --------- */
+  @media (max-width: 900px) {
+    .box2 {
+      flex-direction: column;
     }
-
-    .login-title {
-        font-size: 1.6rem;
+  
+    .order-section,
+    .inner-sidebar {
+      width: 100%;
     }
+  }
+  
+  @media (max-width: 600px) {
+    .orders-table,
+    .orders-table thead,
+    .orders-table tbody,
+    .orders-table tr,
+    .orders-table th,
+    .orders-table td {
+      display: block;
+    }
+  
+    .orders-table thead {
+      display: none;
+    }
+  
+    .orders-table tr {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+  
+    .orders-table td {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+    }
+  
+    .orders-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #9ca3af;
+    }
+  }
+  
+
+
+  
+.book-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  background: #f4f6fb;
+}
+
+/* ===== Sidebar ===== */
+.sidebar-section {
+  flex: 1;
+  min-width: 250px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.search-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filter-box {
+  margin-top: 1.5rem;
+}
+
+.filter-title {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.filter-box select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+/* ===== Gallery ===== */
+.book-gallery-section {
+  flex: 3;
+  min-width: 300px;
+}
+
+.gallery-title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.book-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+}
+
+.book-cover {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+}
+
+.book-title {
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.book-author {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.book-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #10b981;
+  margin-bottom: 0.8rem;
+}
+
+.add-to-cart-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #2563eb;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination-link {
+  background: #e5e7eb;
+  padding: 0.4rem 1rem;
+  margin: 0 0.3rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+}
+
+.pagination-link:hover {
+  background: #d1d5db;
+}
+
+.pagination-text {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .book-page-container {
+    flex-direction: column;
+  }
+
+  .sidebar-section {
+    width: 100%;
+  }
+
+  .book-gallery-section {
+    width: 100%;
+  }
 }
 
 /*===============================
-RECONNEXION
+GALLERY
 ================================*/
-/* --------- Container global --------- */
-.register_main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 100px auto 60px;
-    padding: 2rem;
+
+/* === GLOBAL CONTAINER === */
+.book-page-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
 }
 
-/* --------- Boîte de formulaire --------- */
-.register_container {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box;
+/* === SIDEBAR === */
+.sidebar-section {
+  flex: 0 0 220px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  height: fit-content;
 }
 
-/* --------- Titre --------- */
-.register_container h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-    color: #2d3748;
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-/* --------- Formulaire --------- */
-.register_container form {
-    display: flex;
+.search-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.search-button {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filter-box {
+  margin-top: 1.5rem;
+}
+
+.filter-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* === MAIN GALLERY === */
+.book-gallery-section {
+  flex: 1;
+}
+
+.gallery-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* === GRID === */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .book-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .book-page-container {
     flex-direction: column;
-    gap: 1rem;
+  }
+
+  .sidebar-section {
+    width: 100%;
+    order: 2;
+  }
+
+  .book-gallery-section {
+    order: 1;
+  }
 }
 
-.register_container input {
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+@media (max-width: 480px) {
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.register_container input:focus {
-    border-color: #4299e1;
-    outline: none;
+/* === BOOK CARD === */
+.book-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: 0.3s ease;
 }
 
-/* --------- Bouton --------- */
-.register_container button {
-    padding: 0.8rem 1.2rem;
-    background-color: #4299e1;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
 
-.register_container button:hover {
-    background-color: #3182ce;
+/* === IMAGE WRAPPER + OVERLAY === */
+.book-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
-/* --------- Lien vers connexion --------- */
-.register_container p {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.95rem;
+.book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.register_container a {
-    color: #4299e1;
-    text-decoration: none;
-    font-weight: 500;
+.book-card:hover .book-cover {
+  transform: scale(1.05);
 }
 
-.register_container a:hover {
-    text-decoration: underline;
+.hover-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* --------- Responsive --------- */
-@media (max-width: 500px) {
-    .register_main {
-        padding: 1rem;
-        margin: 80px 1rem 40px;
-    }
+.book-card:hover .hover-overlay {
+  opacity: 1;
+}
 
-    .register_container {
-        padding: 1.5rem;
-    }
+.btn-view {
+  background: white;
+  color: black;
+  padding: 0.4rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
 
-    .register_container h2 {
-        font-size: 1.6rem;
-    }
+/* === INFOS LIVRE === */
+.book-title {
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.book-author,
+.book-price {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* === BOUTON PANIER === */
+.add-to-cart-btn {
+  margin-top: 0.8rem;
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #4f46e5;
+}
+
+/* === PAGINATION === */
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-link {
+  background: #f3f4f6;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #374151;
+}
+
+.pagination-text {
+  font-size: 0.95rem;
+  color: #6b7280;
 }

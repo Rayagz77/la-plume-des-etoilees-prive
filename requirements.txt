@@ -3,3 +3,8 @@ Flask-SQLAlchemy
 Flask-Migrate
 python-dotenv
 psycopg2-binary
+pymongo==4.4.1
+Flask-Login==0.6.3
+stripe==8.0.0
+APScheduler==3.10.4  
+

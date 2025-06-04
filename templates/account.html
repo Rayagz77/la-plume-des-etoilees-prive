@@ -1,50 +1,75 @@
 {% extends 'base.html' %}
 
-{% block title %}Espace personnel{% endblock %}
+{% block title %}Mon espace personnel{% endblock %}
 
 {% block content %}
-<main class="account-container">
-    <h2>Bienvenue, {{ user.user_firstname }} {{ user.user_lastname }} !</h2>
-    <p>Email : {{ user.user_email }}</p>
-    <p>Date d'inscription : {{ user.user_signup_date.strftime('%d/%m/%Y') }}</p>
+<div class="outer-wrapper">
+  <div class="main-box">
+    <div class="box2">
+      
+      <!-- === SIDEBAR === -->
+      <aside class="inner-sidebar">
+        <div class="user-info">
+          <i class="ri-user-3-line"></i>
+          <div>
+            <h2>{{ user.user_firstname }}</h2>
+            <p>{{ user.user_email }}</p>
+          </div>
+        </div>
 
-    <h3>📚 Mes commandes</h3>
-    {% if orders %}
-    <table class="orders-table">
-        <thead>
+        <nav class="nav-links">
+          <a href="#"><i class="ri-shopping-bag-3-line"></i> Commandes</a>
+          <a href="#"><i class="ri-user-3-line"></i> Profil</a>
+          <a href="#"><i class="ri-lock-2-line"></i> Sécurité</a>
+          <a href="#"><i class="ri-logout-box-line"></i> Déconnexion</a>
+        </nav>
+
+        <div class="cta-upgrade">
+          <p>Besoin de plus de fonctionnalités ?</p>
+          <a href="#" class="btn-upgrade">Voir d'autres livres</a>
+        </div>
+      </aside>
+
+      <!-- === SECTION TABLEAU === -->
+      <section class="order-section">
+      
+        {% if orders %}
+        <table class="orders-table">
+          <thead>
             <tr>
-                <th>Commande</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Statut</th>
-                <th>Action</th>
+              <th>Commande</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Statut</th>
+              <th>Action</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for order in orders %}
             <tr>
-                <td data-label="Commande">#{{ order.order_id }}</td>
-                <td data-label="Date">{{ order.order_date.strftime('%d/%m/%Y') }}</td>
-                <td data-label="Total">{{ order.total_price }} €</td>
-                <td data-label="Statut">
-                    <span class="status {{ order.payment_status }}">{{ order.payment_status }}</span>
-                </td>
-                <td data-label="Action">
-                    <a href="{{ url_for('account_bp.order_details', order_id=order.order_id) }}" class="btn">
-                        Voir détails
-                    </a>
-                </td>
+              <td data-label="Commande">#{{ order.order_id }}</td>
+              <td data-label="Date">{{ order.order_date.strftime('%d/%m/%Y') }}</td>
+              <td data-label="Total">{{ order.total_price }} €</td>
+              <td data-label="Statut">
+                <span class="status {{ order.payment_status|lower }}">
+                  {{ order.payment_status }}
+                </span>
+              </td>
+              <td data-label="Action">
+                <a href="{{ url_for('account_bp.order_details', order_id=order.order_id) }}" class="btn-view">
+                  <i class="ri-eye-fill"></i>
+                </a>
+              </td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    
-    {% else %}
-        <p>Aucune commande enregistrée.</p>
-    {% endif %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>Aucune commande pour le moment.</p>
+        {% endif %}
+      </section>
 
-    <div class="account-actions">
-        <a href="{{ url_for('gallery') }}" class="btn">🛒 Acheter un autre livre</a>
     </div>
-</main>
+  </div>
+</div>
 {% endblock %}
