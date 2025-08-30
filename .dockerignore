@@ -1,0 +1,16 @@
+.git
+.venv
+venv
+__pycache__
+node_modules
+*.py[cod]
+*.log
+*.sqlite
+*.db
+*.sql
+*.csv
+.env
+.env.*
+.DS_Store
+.idea
+.vscode

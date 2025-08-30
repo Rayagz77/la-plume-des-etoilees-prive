@@ -3,9 +3,9 @@ from __future__ import annotations
 """Flask application factory (robust version).
 
 – Charge .env une seule fois.
-– Construit l’URI PostgreSQL en échappant correctement le mot de passe
-  pour éviter les erreurs UnicodeDecodeError avec psycopg2.
-– Conserve toute la logique métier et les blueprints existants.
+– Construit l’URI PostgreSQL en échappant correctement le mot de passe.
+– Rend Stripe et Mongo optionnels en dev.
+– Ajoute la config Mail (Mailpit en dev).
 """
 
 from pathlib import Path
@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, session
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_mail import Mail
 import stripe
 
 # ----------------------------------------------------------------------------
@@ -36,22 +37,24 @@ print(f"⇢ .env loaded from  : {BASE_DIR / '.env'}")
 # -- Construction sûre de l'URI Postgres
 DB_USER: str = os.getenv("DB_USER", "postgres")
 DB_PASSWORD: str = quote_plus(os.getenv("DB_PASSWORD", ""))
-DB_HOST: str = os.getenv("DB_HOST", "localhost")
+# En Docker, l'hôte par défaut est le service compose "db"
+DB_HOST: str = os.getenv("DB_HOST", "db")
 DB_PORT: str = os.getenv("DB_PORT", "5432")
-DB_NAME: str = os.getenv("DB_NAME", "db_psql_library")
+# ⚠️ Aligné sur ta base actuelle (db_psql_labrary)
+DB_NAME: str = os.getenv("DB_NAME", "db_psql_labrary")
 
-DEFAULT_DB_URI = (
-    f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DEFAULT_DB_URI = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Priorité à SQLALCHEMY_DATABASE_URI, puis DATABASE_URI, sinon fallback
+DATABASE_URI = (
+    os.getenv("SQLALCHEMY_DATABASE_URI")
+    or os.getenv("DATABASE_URI")
+    or DEFAULT_DB_URI
 )
 
-# .env peut éventuellement surcharger la valeur calculée
-DATABASE_URI = os.getenv("DATABASE_URI", DEFAULT_DB_URI)
-
 # ----------------------------------------------------------------------------
-#  Flask factory
+#  Imports des modèles / blueprints / extensions
 # ----------------------------------------------------------------------------
-
-from models import db  # noqa: E402 (import après modification sys.path)
+from models import db  # noqa: E402
 from models.book_model import Book  # noqa: E402
 from models.user_model import User  # noqa: E402
 from models.category_model import Category  # noqa: E402
@@ -66,17 +69,19 @@ from controllers.account_controller import account_bp  # noqa: E402
 
 from extensions import init_mongo  # noqa: E402
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-if not stripe.api_key:
-    raise RuntimeError("STRIPE_SECRET_KEY is missing from environment")
+# Stripe : optionnel (ne pas faire planter si clé absente en dev)
+stripe_key = os.getenv("STRIPE_SECRET_KEY")
+if stripe_key:
+    stripe.api_key = stripe_key
+else:
+    print("⚠️  STRIPE_SECRET_KEY manquant → Stripe désactivé dans cet environnement.")
 
-
+# ----------------------------------------------------------------------------
+#  Flask factory
+# ----------------------------------------------------------------------------
 def create_app() -> Flask:
     """Application factory."""
-
-    app = Flask(
-        __name__, template_folder="templates", static_folder="static"
-    )
+    app = Flask(__name__, template_folder="templates", static_folder="static")
 
     # ---- Core configuration
     app.config.update(
@@ -93,7 +98,28 @@ def create_app() -> Flask:
     # ---- Extensions
     db.init_app(app)
     Migrate(app, db)
-    init_mongo(app)
+
+    # Mongo optionnel (ne pas casser si non configuré)
+    try:
+        if os.getenv("MONGODB_URI"):
+            init_mongo(app)
+        else:
+            app.logger.info("Mongo désactivé (MONGODB_URI manquant).")
+    except Exception as e:
+        app.logger.warning(f"Mongo désactivé: {e}")
+
+    # Mail (Mailpit en dev, SMTP en prod)
+    mail = Mail()
+    app.config.update(
+        MAIL_SERVER=os.getenv("MAIL_SERVER", "localhost"),
+        MAIL_PORT=int(os.getenv("MAIL_PORT", "25")),
+        MAIL_USE_TLS=os.getenv("MAIL_USE_TLS", "false").lower() == "true",
+        MAIL_USE_SSL=os.getenv("MAIL_USE_SSL", "false").lower() == "true",
+        MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
+        MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
+        MAIL_DEFAULT_SENDER=os.getenv("MAIL_DEFAULT_SENDER", "no-reply@example.com"),
+    )
+    mail.init_app(app)
 
     # ---- Authentication
     login_mgr = LoginManager(app)
@@ -104,13 +130,20 @@ def create_app() -> Flask:
     def load_user(user_id: str):
         return User.query.get(int(user_id))
 
-    # ---- Blueprints
+    # ---- Blueprints applicatifs
     app.register_blueprint(register_bp, url_prefix="/register")
     app.register_blueprint(login_bp, url_prefix="/auth")
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(cart_bp, url_prefix="/cart")
     app.register_blueprint(payement_bp, url_prefix="/payement")
     app.register_blueprint(account_bp, url_prefix="/account")
+
+    # (Optionnel) Webhook Stripe si présent
+    try:
+        from controllers.stripe_hooks import bp as stripe_hooks_bp  # type: ignore
+        app.register_blueprint(stripe_hooks_bp)
+    except Exception as e:
+        app.logger.info(f"Stripe webhook non chargé: {e}")
 
     # ---- Template context processors
     @app.context_processor
@@ -160,6 +193,5 @@ def create_app() -> Flask:
 # ----------------------------------------------------------------------------
 #  Entrée directe
 # ----------------------------------------------------------------------------
-
 if __name__ == "__main__":
     create_app().run(debug=True)
