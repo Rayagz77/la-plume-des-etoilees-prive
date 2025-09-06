@@ -1,25 +1,23 @@
-from flask import Blueprint, request, redirect, url_for, flash, session, render_template, jsonify
-from controllers.access_management import user_required
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session
 from datetime import datetime
-from models.user_model import User
+
 from models import db
+from models.user_model import User
 from models.order_model import Order
 from models.order_details_model import OrderDetail
 from models.cart_items_model import CartItem
 from models.book_model import Book
+from controllers.access_management import user_required
 
-# Déclaration du Blueprint
 cart_bp = Blueprint('cart_bp', __name__)
 
 @cart_bp.route('/add_to_cart/<int:book_id>', methods=['POST'])
 def add_to_cart(book_id):
-    """Ajoute un livre au panier."""
     user_id = session.get('user_id')
 
     if not user_id:
         flash("Veuillez vous connecter pour sauvegarder votre panier et procéder au paiement.", "info")
-        if 'cart_temp' not in session:
-            session['cart_temp'] = []
+        session.setdefault('cart_temp', [])
         if book_id not in session['cart_temp']:
             session['cart_temp'].append(book_id)
             flash("Livre ajouté temporairement. Connectez-vous pour finaliser.", "success")
@@ -31,13 +29,11 @@ def add_to_cart(book_id):
     if existing_item:
         flash("Ce livre est déjà dans votre panier.", "info")
     else:
-        cart_item = CartItem(user_id=user_id, book_id=book_id)
-        db.session.add(cart_item)
+        db.session.add(CartItem(user_id=user_id, book_id=book_id))
         db.session.commit()
         flash("Livre ajouté au panier.", "success")
 
     return redirect(url_for('gallery'))
-
 
 @cart_bp.route('/view', methods=['GET'])
 def view_cart():
@@ -48,9 +44,7 @@ def view_cart():
 
     cart_items = CartItem.query.filter_by(user_id=user_id).all()
     total_price = sum(item.book.book_price for item in cart_items) if cart_items else 0
-
     return render_template('cart.html', cart_items=cart_items, total_price=total_price)
-
 
 @cart_bp.route('/remove_from_cart/<int:cart_item_id>', methods=['POST'])
 def remove_from_cart(cart_item_id):
@@ -69,7 +63,6 @@ def remove_from_cart(cart_item_id):
 
     return redirect(url_for('cart_bp.view_cart'))
 
-
 @cart_bp.route('/checkout-summary', methods=['GET', 'POST'])
 @user_required
 def checkout_summary():
@@ -87,23 +80,21 @@ def checkout_summary():
         email = request.form.get('email') or user.user_email
         session['delivery_email'] = email
 
-        # Création de la commande
         order = Order(user_id=user_id, order_date=datetime.utcnow(), total_price=0, payment_status="pending")
         db.session.add(order)
         db.session.flush()
 
-        total_price = 0
+        running_total = 0
         for item in cart_items:
-            order_detail = OrderDetail(
+            db.session.add(OrderDetail(
                 order_id=order.order_id,
                 book_id=item.book_id,
                 quantity=1,
                 unit_price=item.book.book_price
-            )
-            db.session.add(order_detail)
-            total_price += item.book.book_price
+            ))
+            running_total += item.book.book_price
 
-        order.total_price = total_price
+        order.total_price = running_total
         db.session.commit()
 
         CartItem.query.filter_by(user_id=user_id).delete()

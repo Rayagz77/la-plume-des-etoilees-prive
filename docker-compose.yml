@@ -1,42 +1,67 @@
-name: la-plume
+name: plume
 
 services:
   web:
-    build: .
-    image: la-plume-web:dev
-    env_file: .env
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      bash -lc "
+        flask db upgrade &&
+        gunicorn --factory app:create_app -w 3 -k gthread -b 0.0.0.0:8000 --timeout 120
+      "
+    env_file:
+      - ./.env.docker # <- secrets & connexions ici
+    environment:
+      FLASK_APP: "app:create_app" # valeurs non sensibles OK ici
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-      - mongo
-      - mailpit
-    volumes:
-      - .:/app
+    # (optionnel) healthcheck si tu exposes /healthz
+    # healthcheck:
+    #   test: ["CMD", "bash", "-lc", "wget -qO- http://127.0.0.1:8000/healthz || exit 1"]
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 10
+    restart: unless-stopped
 
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-db_psql_labrary}
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_psql_labrary
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"           # <— ajoute ceci
+    healthcheck:
+      # Note : '$' doit être échappé en YAML → '$$'
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
 
   mongo:
-    image: mongo:6
-    ports:
-      - "27017:27017"
+    image: mongo:7
     volumes:
       - mongodata:/data/db
-
-  mailpit:
-    image: axllent/mailpit:latest
-    ports:
-      - "1025:1025"   # SMTP
-      - "8025:8025"   # UI web
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok ? 0 : 1' || exit 1",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
 
 volumes:
   pgdata:

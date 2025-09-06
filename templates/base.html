@@ -13,6 +13,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
      <!--===============base CSS ===============-->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
@@ -208,8 +209,9 @@
          </div>
       </div>
    <!--=============== MAIN JS ===============-->
-   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+   <script src="{{ url_for('static', filename='js/cart.js') }}" defer></script>
 
    <script>
       document.addEventListener("DOMContentLoaded", function () {

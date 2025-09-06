@@ -52,7 +52,7 @@ class MongoLogger:
             raise
 
     def _init_scheduler(self):
-        if self._scheduler is None:
+        if os.getenv("MONGO_SCHEDULER_ENABLED", "1") == "1":
             self._scheduler = BackgroundScheduler()
             self._scheduler.add_job(
                 self.purge_old_data,

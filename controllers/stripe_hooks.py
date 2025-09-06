@@ -1,23 +1,29 @@
-import os, stripe
+# controllers/stripe_hooks.py
+import os
 from flask import Blueprint, request
+try:
+    import stripe
+except Exception:
+    stripe = None
 
 bp = Blueprint("stripe_hooks", __name__)
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 @bp.post("/webhook/stripe")
 def stripe_webhook():
-    # En dev: autoriser l'endpoint même sans secret (no-op)
-    if not WEBHOOK_SECRET:
-        return "Webhook off (secret missing)", 200
+    endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
+    if not stripe or not endpoint_secret:
+        return "Webhook off (stripe/secret missing)", 200
+
+    payload = request.get_data()
+    sig = request.headers.get("Stripe-Signature", "")
+
     try:
-        payload = request.get_data()
-        sig = request.headers.get("Stripe-Signature", "")
-        event = stripe.Webhook.construct_event(payload, sig, WEBHOOK_SECRET)
+        event = stripe.Webhook.construct_event(payload, sig, endpoint_secret)
     except Exception:
         return "Bad signature", 400
 
-    if event["type"] == "checkout.session.completed":
+    if event.get("type") == "checkout.session.completed":
         session = event["data"]["object"]
-        # TODO: marquer la commande comme payée
+        # TODO: marquer la commande comme payée, envoyer e-mail, etc.
+
     return "", 200

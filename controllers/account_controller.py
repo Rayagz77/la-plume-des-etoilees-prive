@@ -1,41 +1,29 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash
-from controllers.access_management import admin_required, user_required, guest_required
+# controllers/account_controller.py
+from flask import Blueprint, render_template
+from flask_login import login_required, current_user
+from models.orders_model import Orders  # adapte le chemin si ton modèle s'appelle autrement
 
-from models import db
-from models.user_model import User
-from models.order_model import Order
-from models.order_details_model import OrderDetail
+account_bp = Blueprint("account_bp", __name__)
 
-# Déclaration du Blueprint
-account_bp = Blueprint('account_bp', __name__)
+def _current_uid():
+    # suivant ton modèle User: parfois c’est user_id, parfois id
+    return getattr(current_user, "user_id", None) or getattr(current_user, "id", None)
 
-@account_bp.route('/account')
-@user_required
+@account_bp.get("/dashboard")
+@login_required
 def user_dashboard():
-    """Affiche l'espace personnel de l'utilisateur."""
-    user_id = session.get('user_id')
-    if not user_id:
-        flash("Veuillez vous connecter pour accéder à votre espace personnel.", "warning")
-        return redirect(url_for('login_bp.login'))
+    uid = _current_uid()
+    orders = []
+    if uid:
+        # tri du plus récent au plus ancien
+        orders = Orders.query.filter_by(user_id=uid).order_by(Orders.order_date.desc()).all()
+    # IMPORTANT: on passe 'user' au template, car account.html utilise {{ user.* }}
+    return render_template("account.html", user=current_user, orders=orders)
 
-    user = User.query.get(user_id)
-    user_orders = Order.query.filter_by(user_id=user_id, payment_status="paid").order_by(Order.order_date.desc()).all()
-
-    return render_template('account.html', user=user, orders=user_orders)
-
-
-@account_bp.route('/account/order/<int:order_id>')
-@user_required
-def order_details(order_id):
-    """Affiche les détails d'une commande spécifique."""
-    user_id = session.get('user_id')
-    if not user_id:
-        flash("Veuillez vous connecter pour voir vos commandes.", "warning")
-        return redirect(url_for('login_bp.login'))
-
-    order = Order.query.get(order_id)
-    if not order or order.user_id != user_id:
-        flash("Commande introuvable ou accès interdit.", "danger")
-        return redirect(url_for('account_bp.user_dashboard'))
-
-    return render_template('order_details.html', order=order)
+@account_bp.get("/order/<int:order_id>")
+@login_required
+def order_details(order_id: int):
+    uid = _current_uid()
+    # sécurité: ne montrer que les commandes du user connecté
+    order = Orders.query.filter_by(order_id=order_id, user_id=uid).first_or_404()
+    return redirect(url_for("account_bp.user_dashboard"))

@@ -1,15 +1,14 @@
-/*=============== SHOW MENU ===============*/
-const showMenu = (toggleId, navId) =>{
-   const toggle = document.getElementById(toggleId),
-         nav = document.getElementById(navId)
+// static/js/main.js
+document.addEventListener('DOMContentLoaded', () => {
+  const showMenu = (toggleId, navId) => {
+    const toggle = document.getElementById(toggleId);
+    const nav = document.getElementById(navId);
+    if (!toggle || !nav) return; // garde anti-erreur
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('show-menu');
+      toggle.classList.toggle('show-icon');
+    });
+  };
 
-   toggle.addEventListener('click', () =>{
-       // Add show-menu class to nav menu
-       nav.classList.toggle('show-menu')
-
-       // Add show-icon to show and hide the menu icon
-       toggle.classList.toggle('show-icon')
-   })
-}
-
-showMenu('nav-toggle','nav-menu')
+  showMenu('nav-toggle', 'nav-menu');
+});

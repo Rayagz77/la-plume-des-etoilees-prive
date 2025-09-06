@@ -1,14 +1,20 @@
-Flask
-Flask-SQLAlchemy
-Flask-Migrate
-python-dotenv
-psycopg2-binary
-pymongo==4.4.1
+# requirements.txt (exemple sûr)
+Flask==3.0.3
 Flask-Login==0.6.3
-stripe==8.0.0
-APScheduler==3.10.4  
-gunicorn
-zxcvbn-python
+Flask-Migrate==4.0.7
+Flask-SQLAlchemy==3.1.1
+Flask-Mail==0.9.1
 
+SQLAlchemy==2.0.32
+alembic==1.13.2
 
+psycopg2-binary==2.9.9
+pymongo==4.8.0
+stripe==10.7.0
+python-dotenv==1.0.1
+gunicorn==23.0.0
 
+APScheduler==3.10.4
+# (facultatif) pour la vraie analyse de mot de passe :
+zxcvbn==4.4.28
+tzlocal==5.2
